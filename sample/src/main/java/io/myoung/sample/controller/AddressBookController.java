@@ -16,7 +16,7 @@ public class AddressBookController {
 	
 	@RequestMapping(method=RequestMethod.GET)
 	public String getHome() {
-		return "HelloWorld";
+		return "HelloWorld" ;
 	}
 	
 	
