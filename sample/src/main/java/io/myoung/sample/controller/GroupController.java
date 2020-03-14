@@ -19,8 +19,16 @@ public class GroupController {
 	@Autowired
 	private GroupService groupService;
 
-	@RequestMapping(method=RequestMethod.GET, value="/{userId}")
-	public HttpResponse<List<GroupItem>> getGroupListbyUserId(@PathVariable(value="userId") int userId) {
-		return HttpResponse.<List<GroupItem>>builder().data(groupService.findGroupListByUserIdService(userId)).build();
+	@RequestMapping(method=RequestMethod.GET, value="/{U_SEQ}")
+	public HttpResponse<List<GroupItem>> getGroupListbyUserSeq(@PathVariable(value="U_SEQ") int uSeq) {
+		
+		return HttpResponse.<List<GroupItem>>builder().data(groupService.selectGroupListByUserSeqService(uSeq)).build();
+	}
+	
+	@RequestMapping(method=RequestMethod.GET, value="/{U_SEQ}/{G_SEQ}")
+	public HttpResponse<List<GroupItem>> getUserListbyGroupSeq(@PathVariable(value="U_SEQ") int uSeq,
+																@PathVariable(value="G_SEQ") int gSeq) {
+		
+		return HttpResponse.<List<GroupItem>>builder().data(groupService.selectUserListbyGroupSeqService(uSeq, uSeq)).build();
 	}
 }

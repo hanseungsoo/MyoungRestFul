@@ -16,7 +16,7 @@ public class GroupMapper implements RowMapper<List<GroupItem>> {
 		List<GroupItem> list = new ArrayList<GroupItem>();
 		
 		while(rs.next()) {
-			list.add(GroupItem.builder().groupId(rs.getInt(0)).groupName(rs.getString(1)).build());
+			list.add(GroupItem.builder().gSeq(rs.getInt(0)).name(rs.getString(1)).build());
 		}
 		
 		return list;

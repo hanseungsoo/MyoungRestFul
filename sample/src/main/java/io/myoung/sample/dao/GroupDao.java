@@ -3,6 +3,7 @@ package io.myoung.sample.dao;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.stereotype.Repository;
 
@@ -15,8 +16,13 @@ public class GroupDao {
 	@Autowired
 	private JdbcTemplate jdbcTemplate;
 	
-	public List<GroupItem> findGroupListByUserIdDao(int userId) {
-        return jdbcTemplate.queryForObject(
-                "select * from books where id = ?", new GroupMapper());
+	public List<GroupItem> selectGroupListByUserSeqDao(int uSeq) {
+		
+		try {
+			return jdbcTemplate.queryForObject(
+	                "select * from TB_GROUP where U_SEQ = ?", new GroupMapper(), uSeq);
+		} catch(EmptyResultDataAccessException e) {
+			return null;
+		}
     }
 }

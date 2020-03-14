@@ -11,11 +11,7 @@ import lombok.NoArgsConstructor;
 @Builder
 public class GroupItem {
 	
-	@NotNull(message = "GroupId may not be null")
-	@NotBlank(message = "GroupId may not be blank")
-	private int groupId;
+	private int gSeq;
 	
-	@NotNull(message = "GroupName may not be null")
-	@NotBlank(message = "GroupName may not be blank")
-	private String groupName;
+	private String name;
 }
