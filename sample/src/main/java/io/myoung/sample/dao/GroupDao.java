@@ -25,4 +25,13 @@ public class GroupDao {
 			return null;
 		}
     }
+	
+	public Integer insertGroupByUserSeqDao(GroupItem item) {
+		
+		return jdbcTemplate.update(
+                "insert into TB_GROUP(G_SEQ, U_SEQ, NAME)" +
+                "values(g_seq.nextval, ?, ?)", item.getUSeq(), item.getName());
+    }
+	
+	
 }

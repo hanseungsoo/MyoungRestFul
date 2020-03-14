@@ -13,20 +13,26 @@ import lombok.NoArgsConstructor;
 @Builder
 public class UserItem {
 	
-	@NotNull(message = "UserId may not be null")
-	@NotBlank(message = "UserId may not be blank")
 	private int uSeq;
 	
-	@NotNull(message = "UserName may not be null")
-	@NotBlank(message = "UserName may not be blank")
+	@NotNull(message = "Name may not be null")
+	@NotBlank(message = "Name may not be blank")
 	private String name;
 	
-	@NotNull(message = "UserNumber may not be null")
-	@NotBlank(message = "UserNumber may not be blank")
-	private String userNumber;
+	@NotNull(message = "Id may not be null")
+	@NotBlank(message = "Id may not be blank")
+	private String id;
+	
+	@NotNull(message = "Password may not be null")
+	@NotBlank(message = "Password may not be blank")
+	private String password;
+	
+	@NotNull(message = "Phone may not be null")
+	@NotBlank(message = "Phone may not be blank")
+	private String phone;
 	
 	@Email(message = "Email should be valid")
-	@NotNull(message = "UserEmail may not be null")
-	@NotBlank(message = "UserEmail may not be blank")
-	private String userMail;
+	@NotNull(message = "Email may not be null")
+	@NotBlank(message = "Email may not be blank")
+	private String email;
 }

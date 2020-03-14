@@ -18,7 +18,11 @@ public class GroupService {
 		return groupDao.selectGroupListByUserSeqDao(uSeq);
 	}
 	
-	public List<UserItem> selectUserListbyGroupSeqService(int uSeq, int gSeq) {
-		return groupDao.selectGroupListByUserSeqDao(uSeq, gSeq);
+//	public List<UserItem> selectUserListbyGroupSeqService(int uSeq, int gSeq) {
+//		return groupDao.selectGroupListByUserSeqDao(uSeq, gSeq);
+//	}
+	
+	public Integer insertGroupByUserSeqService(GroupItem item) {
+		return groupDao.insertGroupByUserSeqDao(item);
 	}
 }
