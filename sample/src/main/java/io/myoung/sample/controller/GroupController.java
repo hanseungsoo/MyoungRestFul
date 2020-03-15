@@ -11,7 +11,6 @@ import org.springframework.web.bind.annotation.RestController;
 
 import io.myoung.sample.controller.response.HttpSuccessResponse;
 import io.myoung.sample.model.GroupItem;
-import io.myoung.sample.model.UserItem;
 import io.myoung.sample.service.GroupService;
 
 @RestController

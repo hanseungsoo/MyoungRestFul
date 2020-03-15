@@ -7,7 +7,6 @@ import org.springframework.stereotype.Service;
 
 import io.myoung.sample.dao.GroupDao;
 import io.myoung.sample.model.GroupItem;
-import io.myoung.sample.model.UserItem;
 
 @Service
 public class GroupService {

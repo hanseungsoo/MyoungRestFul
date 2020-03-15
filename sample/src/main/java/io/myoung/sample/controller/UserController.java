@@ -1,5 +1,7 @@
 package io.myoung.sample.controller;
 
+import java.util.List;
+
 import javax.validation.Valid;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -10,7 +12,6 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 
 import io.myoung.sample.controller.response.HttpSuccessResponse;
-import io.myoung.sample.model.GroupItem;
 import io.myoung.sample.model.UserItem;
 import io.myoung.sample.service.UserService;
 

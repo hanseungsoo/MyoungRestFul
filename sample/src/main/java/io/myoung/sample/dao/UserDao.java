@@ -5,7 +5,6 @@ import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.stereotype.Repository;
 
-import io.myoung.sample.mapper.GroupMapper;
 import io.myoung.sample.mapper.UserMapper;
 import io.myoung.sample.model.UserItem;
 
@@ -22,7 +21,6 @@ public class UserDao {
     }
 	
 	public UserItem selectUserDao(int uSeq) {
-		System.out.println("######## " + uSeq);
 		try {
 			return jdbcTemplate.queryForObject(
 	                "select * from TB_USER where U_SEQ = ?", new UserMapper(), uSeq);
