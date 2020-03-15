@@ -32,7 +32,7 @@ public class FriendDao {
 	public Integer insertFriendToGroupByFriendSeqDao(int fSeq, int gSeq) {
 		
 		return jdbcTemplate.update(
-                "insert into TB_GROUP_TO_FRIEND(G_SEQ, F_SEQ)" +
+                "insert into 	(G_SEQ, F_SEQ)" +
                 "values(?, ?)", gSeq, fSeq);
     }
 }
