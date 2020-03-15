@@ -1,11 +1,11 @@
 package io.myoung.sample.service;
 
-import java.util.List;
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import io.myoung.sample.dao.UserDao;
+import io.myoung.sample.exception.UserException;
 import io.myoung.sample.model.UserItem;
 import io.myoung.sample.util.AesUtil;
 
@@ -16,10 +16,15 @@ public class UserService {
 	@Autowired
 	private AesUtil aesUtil;
 
+	@Transactional
 	public Integer insertUserService(UserItem item) throws Exception {
 		item.setPassword(aesUtil.encAES(item.getPassword()));
 		
-		return userDao.insertUserDao(item);
+		int count = userDao.insertUserDao(item);
+		
+		if(count == 0)
+			throw new UserException("유저 생성에 실패하였습니다.");
+		return count;
 	}
 	
 	public UserItem selectUserService(int uSeq) {

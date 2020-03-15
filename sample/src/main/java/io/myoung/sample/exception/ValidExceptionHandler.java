@@ -16,7 +16,6 @@ public class ValidExceptionHandler {
 	
 	@ExceptionHandler(MethodArgumentNotValidException.class)
     protected HttpErrorResponse handleMethodArgumentNotValidException(MethodArgumentNotValidException e) {
-        System.out.println("###########################");
         ErrorItem item = null;
         List<ErrorItem> errorList = new ArrayList<ErrorItem>();
         
@@ -33,11 +32,25 @@ public class ValidExceptionHandler {
 	
 	@ExceptionHandler(EncryptException.class)
     protected HttpErrorResponse handleEncryptException(EncryptException e) {
-        System.out.println("###########################");
         
         return HttpErrorResponse.builder().message(e.getMessage()).status("Error").errors(null).build();
     }
 	
-	
+	@ExceptionHandler(UserException.class)
+    protected HttpErrorResponse handleUserCreateException(UserException e) {
+        
+        return HttpErrorResponse.builder().message(e.getMessage()).status("Error").errors(null).build();
+    }
 
+	@ExceptionHandler(GroupException.class)
+    protected HttpErrorResponse handleGroupSelectException(GroupException e) {
+        
+        return HttpErrorResponse.builder().message(e.getMessage()).status("Error").errors(null).build();
+    }
+	
+	@ExceptionHandler(FriendException.class)
+    protected HttpErrorResponse handleFriendException(FriendException e) {
+        
+        return HttpErrorResponse.builder().message(e.getMessage()).status("Error").errors(null).build();
+    }
 }

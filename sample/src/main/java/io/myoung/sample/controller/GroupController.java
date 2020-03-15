@@ -26,10 +26,11 @@ public class GroupController {
 		return HttpSuccessResponse.<List<GroupItem>>builder().data(groupService.selectGroupListByUserSeqService(uSeq)).build();
 	}
 	
-	@RequestMapping(method=RequestMethod.POST, value="/")
-	public HttpSuccessResponse<Integer> insertGroupbyUserSeq(@RequestBody GroupItem item) {
+	@RequestMapping(method=RequestMethod.POST, value="/{U_SEQ}/{NAME}")
+	public HttpSuccessResponse<Integer> insertGroupbyUserSeq(@PathVariable(value="U_SEQ") int uSeq,
+															@PathVariable(value="NAME") String name) {
 		
-		return HttpSuccessResponse.<Integer>builder().data(groupService.insertGroupByUserSeqService(item)).build();
+		return HttpSuccessResponse.<Integer>builder().data(groupService.insertGroupByUserSeqService(uSeq, name)).build();
 	}
 	
 //	@RequestMapping(method=RequestMethod.GET, value="/{U_SEQ}/{G_SEQ}")

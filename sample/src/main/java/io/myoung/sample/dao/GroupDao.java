@@ -8,6 +8,7 @@ import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.stereotype.Repository;
 
 import io.myoung.sample.mapper.GroupMapper;
+import io.myoung.sample.mapper.UserMapper;
 import io.myoung.sample.model.GroupItem;
 
 @Repository
@@ -18,20 +19,23 @@ public class GroupDao {
 	
 	public List<GroupItem> selectGroupListByUserSeqDao(int uSeq) {
 		
+		return jdbcTemplate.query(
+                "select * from TB_GROUP where U_SEQ = ?", new Object[] {uSeq}, new GroupMapper());
+    }
+	
+	public Integer insertGroupByUserSeqDao(int uSeq, String name) {
+		
+		return jdbcTemplate.update(
+                "insert into TB_GROUP(G_SEQ, U_SEQ, NAME)" +
+                "values(g_seq.nextval, ?, ?)", uSeq, name);
+    }
+	
+	public GroupItem selectGroupByGroupSeqDao(int gSeq) {
 		try {
 			return jdbcTemplate.queryForObject(
-	                "select * from TB_GROUP where U_SEQ = ?", new GroupMapper(), uSeq);
+	                "select * from TB_GROUP where G_SEQ = ?", new GroupMapper(), gSeq);
 		} catch(EmptyResultDataAccessException e) {
 			return null;
 		}
     }
-	
-	public Integer insertGroupByUserSeqDao(GroupItem item) {
-		
-		return jdbcTemplate.update(
-                "insert into TB_GROUP(G_SEQ, U_SEQ, NAME)" +
-                "values(g_seq.nextval, ?, ?)", item.getUSeq(), item.getName());
-    }
-	
-	
 }

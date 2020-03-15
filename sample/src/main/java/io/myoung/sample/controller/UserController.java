@@ -1,7 +1,5 @@
 package io.myoung.sample.controller;
 
-import java.util.List;
-
 import javax.validation.Valid;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -16,7 +14,7 @@ import io.myoung.sample.model.UserItem;
 import io.myoung.sample.service.UserService;
 
 @RestController
-@RequestMapping(value="/user")
+@RequestMapping(value="/user", produces = {"application/json"})
 public class UserController {
 	
 	@Autowired
@@ -27,7 +25,7 @@ public class UserController {
 		return HttpSuccessResponse.<UserItem>builder().data(userService.selectUserService(uSeq)).build();
 	}
 	
-	@RequestMapping(method=RequestMethod.POST, produces = {"application/json"})
+	@RequestMapping(method=RequestMethod.POST)
 	public HttpSuccessResponse<Integer> insertUser(@RequestBody @Valid UserItem item) throws Exception {
 		return HttpSuccessResponse.<Integer>builder().data(userService.insertUserService(item)).build();
 	}

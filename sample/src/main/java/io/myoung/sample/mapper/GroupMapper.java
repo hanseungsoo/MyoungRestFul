@@ -2,24 +2,23 @@ package io.myoung.sample.mapper;
 
 import java.sql.ResultSet;
 import java.sql.SQLException;
-import java.util.ArrayList;
 import java.util.List;
 
 import org.springframework.jdbc.core.RowMapper;
 
 import io.myoung.sample.model.GroupItem;
 
-public class GroupMapper implements RowMapper<List<GroupItem>> {
+public class GroupMapper implements RowMapper<GroupItem> {
 
 	@Override
-	public List<GroupItem> mapRow(ResultSet rs, int rowNum) throws SQLException {
-		List<GroupItem> list = new ArrayList<GroupItem>();
+	public GroupItem mapRow(ResultSet rs, int rowNum) throws SQLException {
+		GroupItem item = new GroupItem();
 		
-		while(rs.next()) {
-			list.add(GroupItem.builder().gSeq(rs.getInt(0)).name(rs.getString(1)).build());
-		}
+		item.setGSeq(rs.getInt("G_SEQ"));
+		item.setUSeq(rs.getInt("U_SEQ"));
+		item.setName(rs.getString("NAME"));
 		
-		return list;
+		return item;
 	}
 
 }

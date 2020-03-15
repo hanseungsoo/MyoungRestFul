@@ -21,7 +21,7 @@ public class GroupService {
 //		return groupDao.selectGroupListByUserSeqDao(uSeq, gSeq);
 //	}
 	
-	public Integer insertGroupByUserSeqService(GroupItem item) {
-		return groupDao.insertGroupByUserSeqDao(item);
+	public Integer insertGroupByUserSeqService(int uSeq, String name) {
+		return groupDao.insertGroupByUserSeqDao(uSeq, name);
 	}
 }
