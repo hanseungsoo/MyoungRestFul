@@ -46,7 +46,7 @@ public class FriendController {
 	 */
 	@RequestMapping(method=RequestMethod.POST, value="/{G_SEQ}/{F_SEQ}")
 	public HttpSuccessResponse<Integer> insertFriendByFriendSeq(@PathVariable(value="F_SEQ") int fSeq,
-																		@PathVariable(value="G_SEQ") int gSeq) throws EmptyResultDataAccessException {
+																@PathVariable(value="G_SEQ") int gSeq) throws EmptyResultDataAccessException {
 		return HttpSuccessResponse.<Integer>builder().data(friendService.insertFriendByFriendSeqService(fSeq, gSeq)).build();
 	}
 }

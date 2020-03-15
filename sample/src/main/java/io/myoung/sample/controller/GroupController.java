@@ -42,7 +42,7 @@ public class GroupController {
 	 */
 	@RequestMapping(method=RequestMethod.POST, value="/{U_SEQ}/{NAME}")
 	public HttpSuccessResponse<Integer> insertGroupbyUserSeq(@PathVariable(value="U_SEQ") int uSeq,
-															@PathVariable(value="NAME") String name) {
+															 @PathVariable(value="NAME") String name) {
 		
 		return HttpSuccessResponse.<Integer>builder().data(groupService.insertGroupByUserSeqService(uSeq, name)).build();
 	}
