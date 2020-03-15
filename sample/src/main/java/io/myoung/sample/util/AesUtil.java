@@ -7,7 +7,9 @@ import javax.crypto.Cipher;
 import javax.crypto.spec.SecretKeySpec;
 
 import org.apache.tomcat.util.codec.binary.Base64;
+import org.springframework.stereotype.Component;
 
+@Component
 public class AesUtil {
 	private Key keySpec;
 	

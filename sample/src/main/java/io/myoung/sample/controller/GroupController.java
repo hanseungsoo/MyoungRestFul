@@ -9,7 +9,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 
-import io.myoung.sample.controller.response.HttpResponse;
+import io.myoung.sample.controller.response.HttpSuccessResponse;
 import io.myoung.sample.model.GroupItem;
 import io.myoung.sample.model.UserItem;
 import io.myoung.sample.service.GroupService;
@@ -22,15 +22,15 @@ public class GroupController {
 	private GroupService groupService;
 
 	@RequestMapping(method=RequestMethod.GET, value="/{U_SEQ}")
-	public HttpResponse<List<GroupItem>> getGroupListbyUserSeq(@PathVariable(value="U_SEQ") int uSeq) {
+	public HttpSuccessResponse<List<GroupItem>> getGroupListbyUserSeq(@PathVariable(value="U_SEQ") int uSeq) {
 		
-		return HttpResponse.<List<GroupItem>>builder().data(groupService.selectGroupListByUserSeqService(uSeq)).build();
+		return HttpSuccessResponse.<List<GroupItem>>builder().data(groupService.selectGroupListByUserSeqService(uSeq)).build();
 	}
 	
 	@RequestMapping(method=RequestMethod.POST, value="/")
-	public HttpResponse<Integer> insertGroupbyUserSeq(@RequestBody GroupItem item) {
+	public HttpSuccessResponse<Integer> insertGroupbyUserSeq(@RequestBody GroupItem item) {
 		
-		return HttpResponse.<Integer>builder().data(groupService.insertGroupByUserSeqService(item)).build();
+		return HttpSuccessResponse.<Integer>builder().data(groupService.insertGroupByUserSeqService(item)).build();
 	}
 	
 //	@RequestMapping(method=RequestMethod.GET, value="/{U_SEQ}/{G_SEQ}")

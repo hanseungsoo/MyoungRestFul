@@ -10,9 +10,11 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 
 @Data
-@Builder
 public class UserItem {
 	
+	public UserItem() {
+	}
+
 	private int uSeq;
 	
 	@NotNull(message = "Name may not be null")
