@@ -9,6 +9,8 @@ import javax.crypto.spec.SecretKeySpec;
 import org.apache.tomcat.util.codec.binary.Base64;
 import org.springframework.stereotype.Component;
 
+import io.myoung.sample.exception.EncryptException;
+
 @Component
 public class AesUtil {
 	private Key keySpec;
@@ -37,25 +39,31 @@ public class AesUtil {
 	    return keySpec;
 	}
 	
-	// 암호화
-	public String encAES(String str) throws Exception {
-	    Key keySpec = this.keySpec;
-	    Cipher c = Cipher.getInstance("AES/CBC/PKCS5Padding");
-	    c.init(Cipher.ENCRYPT_MODE, keySpec);
-	    byte[] encrypted = c.doFinal(str.getBytes("UTF-8"));
-	    String enStr = new String(Base64.encodeBase64(encrypted));
-
-	    return enStr;
+	public String encAES(String str) throws EncryptException {
+		Key keySpec = this.keySpec;
+	    try {
+	    	Cipher c = Cipher.getInstance("AES/CBC/PKCS5Padding");
+	    	c.init(Cipher.ENCRYPT_MODE, keySpec);
+	    	byte[] encrypted = c.doFinal(str.getBytes("UTF-8"));
+	    	String enStr = new String(Base64.encodeBase64(encrypted));
+	    	 
+	    	return enStr;
+	    }catch(Exception e) {
+	    	throw new EncryptException(e);
+	    }
 	}
 
-	// 복호화
-	public String decAES(String enStr) throws Exception {
+	public String decAES(String enStr) throws EncryptException {
 	    Key keySpec = this.keySpec;
-	    Cipher c = Cipher.getInstance("AES/CBC/PKCS5Padding");
-	    c.init(Cipher.DECRYPT_MODE, keySpec);
-	    byte[] byteStr = Base64.decodeBase64(enStr.getBytes("UTF-8"));
-	    String decStr = new String(c.doFinal(byteStr), "UTF-8");
-
-	    return decStr;
+	    try {
+		    Cipher c = Cipher.getInstance("AES/CBC/PKCS5Padding");
+		    c.init(Cipher.DECRYPT_MODE, keySpec);
+		    byte[] byteStr = Base64.decodeBase64(enStr.getBytes("UTF-8"));
+		    String decStr = new String(c.doFinal(byteStr), "UTF-8");
+	
+		    return decStr;
+	    }catch(Exception e) {
+	    	throw new EncryptException(e);
+	    }
 	}
 }

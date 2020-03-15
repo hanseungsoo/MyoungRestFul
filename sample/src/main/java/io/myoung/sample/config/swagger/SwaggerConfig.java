@@ -9,6 +9,12 @@ import springfox.documentation.spi.DocumentationType;
 import springfox.documentation.spring.web.plugins.Docket;
 import springfox.documentation.swagger2.annotations.EnableSwagger2;
 
+
+/**
+ * SwaggerConfig.java
+ * @클래스설명 : Swagger를 사용하기 위한 설정 클래스
+ * 			 설정을 통해 API문서를 만들 클래스의 설정이 가능하다.
+ */
 @Configuration
 @EnableSwagger2
 public class SwaggerConfig {                                    

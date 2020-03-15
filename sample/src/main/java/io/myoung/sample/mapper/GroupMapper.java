@@ -7,6 +7,10 @@ import org.springframework.jdbc.core.RowMapper;
 
 import io.myoung.sample.model.GroupItem;
 
+/**
+ * GroupMapper.java
+ * @클래스설명 : 그룹 정보를 가져오는 클래스
+ */
 public class GroupMapper implements RowMapper<GroupItem> {
 
 	@Override

@@ -7,6 +7,10 @@ import javax.validation.constraints.Size;
 
 import lombok.Data;
 
+/**
+ * UserItem.java
+ * @클래스설명 : 사용자 ITEM 클래스 
+ */
 @Data
 public class UserItem {
 	

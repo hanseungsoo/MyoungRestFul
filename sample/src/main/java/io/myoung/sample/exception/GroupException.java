@@ -1,5 +1,9 @@
 package io.myoung.sample.exception;
 
+/**
+ * GroupException.java
+ * @클래스설명 : 그룹 발생 시 사용하는 클래스
+ */
 public class GroupException extends RuntimeException  {
 
 	/**

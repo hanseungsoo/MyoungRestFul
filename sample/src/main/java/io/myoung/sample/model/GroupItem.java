@@ -5,6 +5,10 @@ import javax.validation.constraints.NotNull;
 
 import lombok.Data;
 
+/**
+ * GroupItem.java
+ * @클래스설명 : 그룹을 위한 ITEM 클래스
+ */
 @Data
 public class GroupItem {
 	

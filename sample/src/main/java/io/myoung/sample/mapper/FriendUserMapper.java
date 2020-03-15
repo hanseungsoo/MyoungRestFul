@@ -7,6 +7,10 @@ import org.springframework.jdbc.core.RowMapper;
 
 import io.myoung.sample.model.UserItem;
 
+/**
+ * FriendUserMapper.java
+ * @클래스설명 : 주소록에 있는 유저 정보를 가져오는 클래스
+ */
 public class FriendUserMapper implements RowMapper<UserItem> {
 
 	@Override
