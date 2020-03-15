@@ -3,7 +3,6 @@ package io.myoung.sample.exception;
 import java.util.ArrayList;
 import java.util.List;
 
-import org.springframework.dao.DataAccessException;
 import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.validation.FieldError;
 import org.springframework.web.bind.MethodArgumentNotValidException;
@@ -65,4 +64,11 @@ public class ValidExceptionHandler {
         
         return HttpErrorResponse.builder().message(e.getMessage()).status("Error").errors(null).build();
     }
+	
+	@ExceptionHandler(UserLoginException.class)
+    protected HttpErrorResponse handleUserLoginException(UserLoginException e) {
+        
+        return HttpErrorResponse.builder().message(e.getMessage()).status("Error").errors(null).build();
+    }
+	
 }

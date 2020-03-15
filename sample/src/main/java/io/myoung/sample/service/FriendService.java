@@ -3,8 +3,6 @@ package io.myoung.sample.service;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.dao.DataAccessException;
-import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -44,7 +42,7 @@ public class FriendService {
 	 * @return : 등록 결과(0,1)
 	 */
 	@Transactional
-	public Integer insertFriendByFriendSeqService(int fSeq, int gSeq) throws EmptyResultDataAccessException {
+	public Integer insertFriendByFriendSeqService(int fSeq, int gSeq) {
 		GroupItem groupItem = groupDao.selectGroupByGroupSeqDao(gSeq);
 		
 		if(groupItem == null) {

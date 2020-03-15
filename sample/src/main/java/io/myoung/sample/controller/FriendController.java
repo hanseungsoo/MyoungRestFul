@@ -3,8 +3,6 @@ package io.myoung.sample.controller;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.dao.DataAccessException;
-import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
@@ -46,7 +44,7 @@ public class FriendController {
 	 */
 	@RequestMapping(method=RequestMethod.POST, value="/{G_SEQ}/{F_SEQ}")
 	public HttpSuccessResponse<Integer> insertFriendByFriendSeq(@PathVariable(value="F_SEQ") int fSeq,
-																@PathVariable(value="G_SEQ") int gSeq) throws EmptyResultDataAccessException {
+																@PathVariable(value="G_SEQ") int gSeq) {
 		return HttpSuccessResponse.<Integer>builder().data(friendService.insertFriendByFriendSeqService(fSeq, gSeq)).build();
 	}
 }

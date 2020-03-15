@@ -3,9 +3,7 @@ package io.myoung.sample.service;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.stereotype.Service;
-import org.springframework.transaction.annotation.Transactional;
 
 import io.myoung.sample.dao.UserDao;
 import io.myoung.sample.exception.EncryptException;
@@ -30,8 +28,7 @@ public class UserService {
 	 * @return : 정상 등록이면 1, 오류면 오류 응답 발송
 	 * @throws EncryptException : 패스워드 암호화 관련 에러 발생
 	 */
-	@Transactional
-	public Integer insertUserService(UserItem item) throws EncryptException {
+	public Integer insertUserService(UserItem item) {
 		item.setPassword(aesUtil.encAES(item.getPassword()));
 		
 		int count = userDao.insertUserDao(item);
@@ -46,7 +43,7 @@ public class UserService {
 	 * @param uSeq : 사용자 키
 	 * @return : 사용자 정보
 	 */
-	public UserItem selectUserByUserSeqService(int uSeq) throws EmptyResultDataAccessException {
+	public UserItem selectUserByUserSeqService(int uSeq) {
 		
 		return userDao.selectUserByUserSeqDao(uSeq);
 	}
