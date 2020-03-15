@@ -1,5 +1,7 @@
 package io.myoung.sample.controller;
 
+import java.util.List;
+
 import javax.validation.Valid;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -23,6 +25,11 @@ public class UserController {
 	@RequestMapping(method=RequestMethod.GET, value="/{U_SEQ}")
 	public HttpSuccessResponse<UserItem> getUser(@PathVariable(value="U_SEQ") int uSeq) {
 		return HttpSuccessResponse.<UserItem>builder().data(userService.selectUserService(uSeq)).build();
+	}
+	
+	@RequestMapping(method=RequestMethod.GET, value="/name/{U_NAME}")
+	public HttpSuccessResponse<List<UserItem>> getUserByUname(@PathVariable(value="U_NAME") String uName) {
+		return HttpSuccessResponse.<List<UserItem>>builder().data(userService.selectUserByUnameService(uName)).build();
 	}
 	
 	@RequestMapping(method=RequestMethod.POST)

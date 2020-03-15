@@ -9,7 +9,7 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 
 import io.myoung.sample.controller.response.HttpSuccessResponse;
-import io.myoung.sample.model.FriendItem;
+import io.myoung.sample.model.UserItem;
 import io.myoung.sample.service.FriendService;
 
 @RestController
@@ -20,8 +20,8 @@ public class FriendController {
 	private FriendService friendService;
 	
 	@RequestMapping(method=RequestMethod.GET, value="/{G_SEQ}")
-	public HttpSuccessResponse<List<FriendItem>> getFriendByUserSeqAndGroupSeq(@PathVariable(value="G_SEQ") int gSeq) {
-		return HttpSuccessResponse.<List<FriendItem>>builder().data(friendService.selectFriendByGroupSeqService(gSeq)).build();
+	public HttpSuccessResponse<List<UserItem>> getFriendByUserSeqAndGroupSeq(@PathVariable(value="G_SEQ") int gSeq) {
+		return HttpSuccessResponse.<List<UserItem>>builder().data(friendService.selectFriendByGroupSeqService(gSeq)).build();
 	}
 	
 	@RequestMapping(method=RequestMethod.POST, value="/{G_SEQ}/{F_SEQ}")

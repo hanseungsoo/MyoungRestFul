@@ -1,5 +1,7 @@
 package io.myoung.sample.dao;
 
+import java.util.List;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.jdbc.core.JdbcTemplate;
@@ -28,5 +30,11 @@ public class UserDao {
 			return null;
 		}
     }
+	
+	public List<UserItem> selectUserByUnameDao(String uName) {
+		return jdbcTemplate.query(
+                "select * from TB_USER where NAME = ?", new Object[] {uName}, new UserMapper());
+    }
+	
 	
 }
