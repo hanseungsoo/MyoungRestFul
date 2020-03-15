@@ -5,7 +5,7 @@ import lombok.Data;
 
 /**
  * HttpSuccessResponse.java
- * @클래스설명 : 
+ * @클래스설명 : 정상 응답을 담아 보내는 클래스
  */
 @Data
 @Builder
