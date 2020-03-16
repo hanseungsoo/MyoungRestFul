@@ -20,10 +20,10 @@ public class UserLoginDao {
 	private JdbcTemplate jdbcTemplate;
 	
 	
-	public UserDetailsImpl selectLoginByUserId(String id) throws EmptyResultDataAccessException {
+	public UserDetailsImpl selectLoginByUserId(String eMail) throws EmptyResultDataAccessException {
 		
 		return jdbcTemplate.queryForObject(
-                "select * from TB_USER where ID = ?", new UserLoginMapper(), id);
+                "select * from TB_USER where EMAIL = ?", new UserLoginMapper(), eMail);
     }
 	
 }

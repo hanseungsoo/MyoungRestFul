@@ -53,4 +53,10 @@ public class GroupDao {
 		return jdbcTemplate.queryForObject(
                 "select * from TB_GROUP where G_SEQ = ?", new GroupMapper(), gSeq);
     }
+	
+	public GroupItem selectGroupByUserNameDao(String name) throws EmptyResultDataAccessException {
+		return jdbcTemplate.queryForObject(
+                "select count(1) as cnt from from TB_USER a " +
+                "inner join TB_GROUP b on (a.NAME = '한승수' and a.U_SEQ = b.U_SEQ) where NAME = ?", new GroupMapper(), name);
+    }
 }

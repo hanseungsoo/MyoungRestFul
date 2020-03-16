@@ -29,7 +29,7 @@ public class FriendDao {
 		
 		return jdbcTemplate.query(
                 "select b.* from TB_GROUP_TO_FRIEND a " +
-                "left join TB_USER b on (a.G_SEQ = ? and a.F_SEQ = b.U_SEQ)", new Object[] {gSeq}, new FriendUserMapper());
+                "inner join TB_USER b on (a.G_SEQ = ? and a.F_SEQ = b.U_SEQ)", new Object[] {gSeq}, new FriendUserMapper());
     }
 	
 	/**

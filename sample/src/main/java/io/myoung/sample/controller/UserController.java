@@ -7,12 +7,14 @@ import javax.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestHeader;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 
 import io.myoung.sample.controller.response.HttpSuccessResponse;
 import io.myoung.sample.model.UserItem;
+import io.myoung.sample.security.JwtTokenProvider;
 import io.myoung.sample.service.UserService;
 
 /**
@@ -25,15 +27,18 @@ public class UserController {
 	
 	@Autowired
 	private UserService userService;
+	@Autowired
+	private JwtTokenProvider jwtTokenProvider;
 	
 	/**
 	 * @메소드설명 : 사용자 키로 사용자 정보를 가져 온다.
 	 * @param uSeq : 사용자 키
 	 * @return : 사용자 정보
 	 */
-	@RequestMapping(method=RequestMethod.GET, value="/{U_SEQ}")
-	public HttpSuccessResponse<UserItem> getUser(@PathVariable(value="U_SEQ") int uSeq) {
-		return HttpSuccessResponse.<UserItem>builder().data(userService.selectUserByUserSeqService(uSeq)).build();
+	@RequestMapping(method=RequestMethod.GET, value="/myinfo")
+	public HttpSuccessResponse<UserItem> getUser(@RequestHeader(value="X-AUTH-TOKEN") String token) {
+		UserItem item = jwtTokenProvider.getUserItem(token);
+		return HttpSuccessResponse.<UserItem>builder().data(userService.selectUserByUserSeqService(item.getUSeq())).build();
 	}
 	
 	/**

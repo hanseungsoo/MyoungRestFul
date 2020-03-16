@@ -3,7 +3,9 @@ package io.myoung.sample.security;
 import java.util.ArrayList;
 import java.util.Base64;
 import java.util.Date;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import javax.annotation.PostConstruct;
 import javax.servlet.http.HttpServletRequest;
@@ -17,10 +19,13 @@ import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.stereotype.Component;
 
+import com.fasterxml.jackson.databind.ObjectMapper;
+
 import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.Jws;
 import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.SignatureAlgorithm;
+import io.myoung.sample.model.UserItem;
 
 @Component
 public class JwtTokenProvider { // JWT 토큰을 생성 및 검증 모듈
@@ -29,7 +34,10 @@ public class JwtTokenProvider { // JWT 토큰을 생성 및 검증 모듈
     private String secretKey;
  
     private long tokenValidMilisecond = 1000L * 60 * 60; // 1시간만 토큰 유효
- 
+    
+    @Autowired
+    private ObjectMapper objectMapper;
+    
     @Autowired
     private UserDetailsService userDetailsService;
  
@@ -39,7 +47,7 @@ public class JwtTokenProvider { // JWT 토큰을 생성 및 검증 모듈
     }
  
     // Jwt 토큰 생성
-    public String createToken(UserDetails item) {
+    public String createToken(UserDetailsImpl item) {
     	List<String> authList = new ArrayList<>();
     	
         for (GrantedAuthority a: item.getAuthorities()) {
@@ -48,6 +56,7 @@ public class JwtTokenProvider { // JWT 토큰을 생성 및 검증 모듈
     	
         Claims claims = Jwts.claims().setSubject(item.getUsername());
         claims.put("roles", authList);
+        claims.put("userItem", item.getItem());
         Date now = new Date();
         return Jwts.builder()
                 .setClaims(claims) // 데이터
@@ -66,6 +75,12 @@ public class JwtTokenProvider { // JWT 토큰을 생성 및 검증 모듈
     // Jwt 토큰에서 회원 구별 정보 추출
     public String getUserEmail(String token) {
         return Jwts.parser().setSigningKey(secretKey).parseClaimsJws(token).getBody().getSubject();
+    }
+    
+    public UserItem getUserItem(String token) {
+    	Claims claims = Jwts.parser().setSigningKey(secretKey).parseClaimsJws(token).getBody();
+    	
+        return objectMapper.convertValue(claims.get("userItem"), UserItem.class);
     }
  
     // Request의 Header에서 token 파싱 : "X-AUTH-TOKEN: jwt토큰"
