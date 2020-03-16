@@ -25,6 +25,11 @@ public class FriendService {
 	@Autowired
 	private GroupDao groupDao;
 
+	
+	public List<UserItem> selectAllFriendService(int uSeq) {
+		return friendDao.selectAllFriendDao(uSeq);
+	}
+	
 	/**
 	 * @메소드설명 : Dao에 그룹 키를 가지고 그룹에 속한 유저를 가져온다.
 	 * @param gSeq : 그룹의 키
@@ -42,7 +47,7 @@ public class FriendService {
 	 * @return : 등록 결과(0,1)
 	 */
 	@Transactional
-	public Integer insertFriendByFriendSeqService(int fSeq, int gSeq) {
+	public Integer insertFriendByFriendSeqService(int fSeq, int gSeq, int uSeq) {
 		GroupItem groupItem = groupDao.selectGroupByGroupSeqDao(gSeq);
 		
 		if(groupItem == null) {
@@ -50,11 +55,9 @@ public class FriendService {
 		}
 		
 		int count;
-		if(groupItem.getName().equals("전체")) {
-			count = friendDao.insertFriendByFriendSeqDao(fSeq, groupItem.getUSeq());
-			if(count == 0) {
-				throw new FriendException("주소록에 추가하지 못했습니다.");
-			}
+		count = friendDao.insertFriendByFriendSeqDao(fSeq, uSeq);
+		if(count == 0) {
+			throw new FriendException("주소록에 추가하지 못했습니다.");
 		}
 		
 		count = friendDao.insertFriendToGroupByFriendSeqDao(fSeq, gSeq);
@@ -65,5 +68,37 @@ public class FriendService {
 		return count;
 	}
 	
+	/**
+	 * @메소드설명 : 사용자 주소록에 친구를 등록한다
+	 * @param fSeq : 주소록에 등록할 유저 키
+	 * @param uSeq : 주소록 주인 키
+	 * @return : 등록 결과(0,1)
+	 */
+	public Integer insertFriendByFriendSeqService(int fSeq,int uSeq) {
+		int count;
+		count = friendDao.insertFriendByFriendSeqDao(fSeq, uSeq);
+		if(count == 0) {
+			throw new FriendException("주소록에 추가하지 못했습니다.");
+		}
+		return count;
+	}
+	
+	/**
+	 * @메소드설명 : 사용자 주소록에 친구를 삭제한다
+	 * @param fSeq : 주소록에 삭제할 유저 키
+	 * @param uSeq : 주소록 주인 키
+	 * @return : 등록 결과(0,1 이상)
+	 */
+	@Transactional
+	public Integer deleteFriendByFriendSeqService(int fSeq, int uSeq) {
+		int count;
+		friendDao.deleteFriendtoGroupByFriendSeqDao(fSeq, uSeq);
+		count = friendDao.deleteFriendByFriendSeqDao(fSeq, uSeq);
+		if(count == 0) {
+			throw new FriendException("삭제할 친구 정보가 없습니다.");
+		}
+		return count;
+		
+	}
 	
 }
