@@ -38,6 +38,6 @@ public class UserItem {
 	@Email(message = "Email should be valid")
 	@NotNull(message = "Email may not be null")
 	@NotBlank(message = "Email may not be blank")
-	@Size(max = 20)
+	@Size(max = 50)
 	private String email;
 }
