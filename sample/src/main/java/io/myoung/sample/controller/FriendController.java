@@ -13,6 +13,7 @@ import io.myoung.sample.controller.response.HttpSuccessResponse;
 import io.myoung.sample.model.UserItem;
 import io.myoung.sample.security.JwtTokenProvider;
 import io.myoung.sample.service.FriendService;
+import io.myoung.sample.value.StatusEnum;
 
 
 /**
@@ -35,7 +36,7 @@ public class FriendController {
 	@RequestMapping(method=RequestMethod.GET, value="/")
 	public HttpSuccessResponse<List<UserItem>> getAllFriendByUserSeq(@RequestHeader(value="X-AUTH-TOKEN") String token) {
 		UserItem item = jwtTokenProvider.getUserItem(token);
-		return HttpSuccessResponse.<List<UserItem>>builder().data(friendService.selectAllFriendService(item.getUSeq())).build();
+		return HttpSuccessResponse.<List<UserItem>>builder().status(StatusEnum.SUCCESS).data(friendService.selectAllFriendService(item.getUSeq())).build();
 	}
 	
 	/**
@@ -45,7 +46,7 @@ public class FriendController {
 	 */
 	@RequestMapping(method=RequestMethod.GET, value="/{G_SEQ}")
 	public HttpSuccessResponse<List<UserItem>> getFriendByUserSeqAndGroupSeq(@PathVariable(value="G_SEQ") int gSeq) {
-		return HttpSuccessResponse.<List<UserItem>>builder().data(friendService.selectFriendByGroupSeqService(gSeq)).build();
+		return HttpSuccessResponse.<List<UserItem>>builder().status(StatusEnum.SUCCESS).data(friendService.selectFriendByGroupSeqService(gSeq)).build();
 	}
 	
 	/**
@@ -61,7 +62,7 @@ public class FriendController {
 			@PathVariable(value="F_SEQ") int fSeq,
 			@PathVariable(value="G_SEQ") int gSeq) {
 		UserItem item = jwtTokenProvider.getUserItem(token);
-		return HttpSuccessResponse.<Integer>builder().data(friendService.insertFriendByFriendSeqService(fSeq, gSeq,item.getUSeq())).build();
+		return HttpSuccessResponse.<Integer>builder().status(StatusEnum.SUCCESS).data(friendService.insertFriendByFriendSeqService(fSeq, gSeq,item.getUSeq())).build();
 	}
 	
 	@RequestMapping(method=RequestMethod.POST, value="/{F_SEQ}")
@@ -69,7 +70,7 @@ public class FriendController {
 			@RequestHeader(value="X-AUTH-TOKEN") String token,
 			@PathVariable(value="F_SEQ") int fSeq) {
 		UserItem item = jwtTokenProvider.getUserItem(token);
-		return HttpSuccessResponse.<Integer>builder().data(friendService.insertFriendByFriendSeqService(fSeq,item.getUSeq())).build();
+		return HttpSuccessResponse.<Integer>builder().status(StatusEnum.SUCCESS).data(friendService.insertFriendByFriendSeqService(fSeq,item.getUSeq())).build();
 	}
 	
 	@RequestMapping(method = RequestMethod.DELETE, value = "/{F_SEQ}")
@@ -77,7 +78,7 @@ public class FriendController {
 			@RequestHeader(value="X-AUTH-TOKEN") String token,
 			@PathVariable(value="F_SEQ") int fSeq){
 		UserItem item = jwtTokenProvider.getUserItem(token);
-		return HttpSuccessResponse.<Integer>builder().data(friendService.deleteFriendByFriendSeqService(fSeq, item.getUSeq())).build();
+		return HttpSuccessResponse.<Integer>builder().status(StatusEnum.SUCCESS).data(friendService.deleteFriendByFriendSeqService(fSeq, item.getUSeq())).build();
 		
 	}
 }
