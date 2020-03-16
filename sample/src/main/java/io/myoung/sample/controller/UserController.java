@@ -35,7 +35,7 @@ public class UserController {
 	 * @param uSeq : 사용자 키
 	 * @return : 사용자 정보
 	 */
-	@RequestMapping(method=RequestMethod.GET, value="/myinfo")
+	@RequestMapping(method=RequestMethod.GET, value="/info")
 	public HttpSuccessResponse<UserItem> getUser(@RequestHeader(value="X-AUTH-TOKEN") String token) {
 		UserItem item = jwtTokenProvider.getUserItem(token);
 		return HttpSuccessResponse.<UserItem>builder().data(userService.selectUserByUserSeqService(item.getUSeq())).build();
@@ -46,7 +46,7 @@ public class UserController {
 	 * @param uName : 유저 이름
 	 * @return : 이름으로 검색된 유저 정보 리스트
 	 */
-	@RequestMapping(method=RequestMethod.GET, value="/name/{U_NAME}")
+	@RequestMapping(method=RequestMethod.GET, value="/info/{U_NAME}")
 	public HttpSuccessResponse<List<UserItem>> getUserByUname(@PathVariable(value="U_NAME") String uName) {
 		return HttpSuccessResponse.<List<UserItem>>builder().data(userService.selectUserByUnameService(uName)).build();
 	}
