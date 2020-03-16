@@ -59,12 +59,12 @@ public class JwtTokenProvider { // JWT 토큰을 생성 및 검증 모듈
  
     // Jwt 토큰으로 인증 정보를 조회
     public Authentication getAuthentication(String token) {
-        UserDetails userDetails = userDetailsService.loadUserByUsername(this.getUserId(token));
+        UserDetails userDetails = userDetailsService.loadUserByUsername(this.getUserEmail(token));
         return new UsernamePasswordAuthenticationToken(userDetails, "", userDetails.getAuthorities());
     }
  
     // Jwt 토큰에서 회원 구별 정보 추출
-    public String getUserId(String token) {
+    public String getUserEmail(String token) {
         return Jwts.parser().setSigningKey(secretKey).parseClaimsJws(token).getBody().getSubject();
     }
  

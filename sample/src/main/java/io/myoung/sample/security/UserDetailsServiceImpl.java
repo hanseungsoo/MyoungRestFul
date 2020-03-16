@@ -15,9 +15,9 @@ public class UserDetailsServiceImpl implements UserDetailsService {
 	UserLoginDao userloginDao;
 
 	@Override
-	public UserDetails loadUserByUsername(String id) throws UsernameNotFoundException {
+	public UserDetails loadUserByUsername(String eMail) throws UsernameNotFoundException {
 		// TODO Auto-generated method stub
-		return userloginDao.selectLoginByUserId(id);
+		return userloginDao.selectLoginByUserId(eMail);
 	}
 
 }

@@ -19,7 +19,7 @@ public class UserDetailsImpl extends User {
 	private static final long serialVersionUID = -3101273608882689809L;
 
 	public UserDetailsImpl(UserItem item) {
-		super(item.getId(), item.getPassword(), authorities(item));
+		super(item.getEmail(), item.getPassword(), authorities(item));
 	}
 	
 	private static Collection<? extends GrantedAuthority> authorities(UserItem item) {

@@ -30,7 +30,7 @@ public class UserService {
 	 */
 	public Integer insertUserService(UserItem item) {
 		item.setPassword(aesUtil.encAES(item.getPassword()));
-		
+		item.setRole("USER");
 		int count = userDao.insertUserDao(item);
 		
 		if(count == 0)

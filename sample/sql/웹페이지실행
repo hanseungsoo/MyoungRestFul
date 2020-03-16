@@ -1,0 +1,1 @@
+로컬에서 실행시 크롬 속성에서 --args --disable-web-security --user-data-dir=${index.html 루트 경로}

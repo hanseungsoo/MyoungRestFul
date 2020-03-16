@@ -21,7 +21,6 @@ public class FriendUserMapper implements RowMapper<UserItem> {
 		item.setName(rs.getString("NAME"));
 		item.setPhone(rs.getString("PHONE"));
 		item.setEmail(rs.getString("EMAIL"));
-		item.setId(rs.getString("ID"));
 		
 		return item;
 	}

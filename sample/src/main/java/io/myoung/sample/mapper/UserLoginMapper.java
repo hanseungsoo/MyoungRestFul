@@ -20,7 +20,6 @@ public class UserLoginMapper implements RowMapper<UserDetailsImpl> {
 		
 		item.setUSeq(rs.getInt("U_SEQ"));
 		item.setName(rs.getString("NAME"));
-		item.setId(rs.getString("ID"));
 		item.setEmail(rs.getString("EMAIL"));
 		item.setPhone(rs.getString("PHONE"));
 		item.setRole(rs.getString("ROLE"));

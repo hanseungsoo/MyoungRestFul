@@ -27,8 +27,8 @@ public class UserDao {
 	 */
 	public Integer insertUserDao(UserItem item) {
 		return jdbcTemplate.update(
-                "insert into TB_USER(U_SEQ, NAME, ID, PASSWORD, EMAIL, PHONE)" +
-                "values(u_seq.nextval, ?, ?, ?, ?, ?)", item.getName(), item.getId(), item.getPassword(), item.getEmail(), item.getPhone());
+                "insert into TB_USER(U_SEQ, NAME, PASSWORD, EMAIL, PHONE, ROLE)" +
+                "values(u_seq.nextval, ?, ?, ?, ?, ?)", item.getName(), item.getPassword(), item.getEmail(), item.getPhone(), item.getRole());
     }
 	
 	/**

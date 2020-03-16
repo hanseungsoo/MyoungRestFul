@@ -30,7 +30,7 @@ public class JwtAuthenticationController {
 	
 	@RequestMapping(method = RequestMethod.POST)
 	public HttpSuccessResponse<JwtTokenItem> createAuthenticationToken(@RequestBody JwtRequest authenticationRequest) throws Exception {
-		UserDetails item = userDetailsService.loadUserByUsername(authenticationRequest.getId());
+		UserDetails item = userDetailsService.loadUserByUsername(authenticationRequest.getEmail());
 		
 		if (!authenticationRequest.getPassword().equals(aesUtil.decAES(item.getPassword())))
             throw new UserLoginException("패스워드가 틀렸습니다.");

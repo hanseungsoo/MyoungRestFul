@@ -24,11 +24,6 @@ public class UserItem {
 	@NotBlank(message = "Name may not be blank")
 	@Size(max = 20)
 	private String name;
-	
-	@NotNull(message = "Id may not be null")
-	@NotBlank(message = "Id may not be blank")
-	@Size(max = 10)
-	private String id;
 
 	@NotNull(message = "Password may not be null")
 	@NotBlank(message = "Password may not be blank")
