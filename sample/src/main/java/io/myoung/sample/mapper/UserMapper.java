@@ -22,6 +22,7 @@ public class UserMapper implements RowMapper<UserItem> {
 		item.setId(rs.getString("ID"));
 		item.setEmail(rs.getString("EMAIL"));
 		item.setPhone(rs.getString("PHONE"));
+		item.setRole(rs.getString("ROLE"));
 		
 		return item;
 	}

@@ -6,7 +6,7 @@ import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.stereotype.Repository;
 
 import io.myoung.sample.mapper.UserLoginMapper;
-import io.myoung.sample.security.CustomUserDetails;
+import io.myoung.sample.security.UserDetailsImpl;
 
 
 /**
@@ -20,7 +20,7 @@ public class UserLoginDao {
 	private JdbcTemplate jdbcTemplate;
 	
 	
-	public CustomUserDetails selectLoginByUserId(String id) throws EmptyResultDataAccessException {
+	public UserDetailsImpl selectLoginByUserId(String id) throws EmptyResultDataAccessException {
 		
 		return jdbcTemplate.queryForObject(
                 "select * from TB_USER where ID = ?", new UserLoginMapper(), id);

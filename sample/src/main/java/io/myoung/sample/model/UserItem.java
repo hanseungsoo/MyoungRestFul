@@ -18,6 +18,7 @@ public class UserItem {
 	}
 	
 	private int uSeq;
+	private String role;
 	
 	@NotNull(message = "Name may not be null")
 	@NotBlank(message = "Name may not be blank")

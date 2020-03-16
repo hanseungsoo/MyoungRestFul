@@ -1,5 +1,6 @@
 package io.myoung.sample.security;
 
+import java.util.ArrayList;
 import java.util.Base64;
 import java.util.Date;
 import java.util.List;
@@ -11,7 +12,9 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
+import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
+import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.stereotype.Component;
 
 import io.jsonwebtoken.Claims;
@@ -28,7 +31,7 @@ public class JwtTokenProvider { // JWT 토큰을 생성 및 검증 모듈
     private long tokenValidMilisecond = 1000L * 60 * 60; // 1시간만 토큰 유효
  
     @Autowired
-    private CustomUserDetailsService userDetailsService;
+    private UserDetailsService userDetailsService;
  
     @PostConstruct
     protected void init() {
@@ -36,9 +39,15 @@ public class JwtTokenProvider { // JWT 토큰을 생성 및 검증 모듈
     }
  
     // Jwt 토큰 생성
-    public String createToken(String userPk, List<String> roles) {
-        Claims claims = Jwts.claims().setSubject(userPk);
-        claims.put("roles", roles);
+    public String createToken(UserDetails item) {
+    	List<String> authList = new ArrayList<>();
+    	
+        for (GrantedAuthority a: item.getAuthorities()) {
+        	authList.add(a.getAuthority());
+        }
+    	
+        Claims claims = Jwts.claims().setSubject(item.getUsername());
+        claims.put("roles", authList);
         Date now = new Date();
         return Jwts.builder()
                 .setClaims(claims) // 데이터
@@ -50,12 +59,12 @@ public class JwtTokenProvider { // JWT 토큰을 생성 및 검증 모듈
  
     // Jwt 토큰으로 인증 정보를 조회
     public Authentication getAuthentication(String token) {
-        UserDetails userDetails = userDetailsService.loadUserByUsername(this.getUserPk(token));
+        UserDetails userDetails = userDetailsService.loadUserByUsername(this.getUserId(token));
         return new UsernamePasswordAuthenticationToken(userDetails, "", userDetails.getAuthorities());
     }
  
     // Jwt 토큰에서 회원 구별 정보 추출
-    public String getUserPk(String token) {
+    public String getUserId(String token) {
         return Jwts.parser().setSigningKey(secretKey).parseClaimsJws(token).getBody().getSubject();
     }
  
