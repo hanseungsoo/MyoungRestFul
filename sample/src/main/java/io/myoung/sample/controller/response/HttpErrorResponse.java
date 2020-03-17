@@ -3,6 +3,7 @@ package io.myoung.sample.controller.response;
 import java.util.List;
 
 import io.myoung.sample.model.ErrorItem;
+import io.myoung.sample.value.StatusEnum;
 import lombok.Builder;
 import lombok.Data;
 
@@ -14,6 +15,6 @@ import lombok.Data;
 @Builder
 public class HttpErrorResponse {
 	private String message;
-	private String status;
+	private StatusEnum status;
 	private List<ErrorItem> errors;
 }

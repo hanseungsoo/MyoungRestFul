@@ -20,6 +20,13 @@ public class FriendDao {
 	@Autowired
 	private JdbcTemplate jdbcTemplate;
 	
+	public List<UserItem> selectAllFriendDao(int uSeq) {
+		
+		return jdbcTemplate.query(
+				"select * from TB_FRIEND " +
+		        "where U_SEQ = ?",new Object[] {uSeq},new FriendUserMapper());
+	}
+
 	/**
 	 * @메소드설명 : TB_GROUP_TO_FRIEND와 TB_USER를 조인하여 그룹에 속한 모든 유저를 가져 온다.
 	 * @param gSeq : 그룹의 키
@@ -29,7 +36,7 @@ public class FriendDao {
 		
 		return jdbcTemplate.query(
                 "select b.* from TB_GROUP_TO_FRIEND a " +
-                "inner join TB_USER b on (a.G_SEQ = ? and a.F_SEQ = b.U_SEQ)", new Object[] {gSeq}, new FriendUserMapper());
+                "left join TB_USER b on (a.G_SEQ = ? and a.F_SEQ = b.U_SEQ)", new Object[] {gSeq}, new FriendUserMapper());
     }
 	
 	/**
@@ -57,5 +64,18 @@ public class FriendDao {
                 "insert into TB_FRIEND(U_SEQ, F_SEQ)" +
                 "values(?, ?)", uSeq, fSeq);
     }
+	
+	public Integer deleteFriendByFriendSeqDao(int fSeq,int uSeq) {
+		return jdbcTemplate.update(
+				"delete from TB_FRIEND" + 
+				"where U_SEQ=? and F_SEQ",uSeq,fSeq);
+	}
+	
+	public Integer deleteFriendtoGroupByFriendSeqDao(int fSeq,int uSeq) {
+		return jdbcTemplate.update(
+				"delete from TB_GROUP_TO_FRIEND" + 
+				"where F_SEQ=?" + 
+				"G_SEQ=(select G_SEQ from TB_GROUP where U_SEQ=?)",fSeq,uSeq);
+	}
 	
 }

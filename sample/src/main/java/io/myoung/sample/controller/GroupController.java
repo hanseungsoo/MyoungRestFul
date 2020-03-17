@@ -14,6 +14,7 @@ import io.myoung.sample.model.GroupItem;
 import io.myoung.sample.model.UserItem;
 import io.myoung.sample.security.JwtTokenProvider;
 import io.myoung.sample.service.GroupService;
+import io.myoung.sample.value.StatusEnum;
 
 /**
  * GroupController.java
@@ -36,7 +37,7 @@ public class GroupController {
 	@RequestMapping(method=RequestMethod.GET)
 	public HttpSuccessResponse<List<GroupItem>> getGroupListbyUserSeq(@RequestHeader(value="X-AUTH-TOKEN") String token) {
 		UserItem item = jwtTokenProvider.getUserItem(token);
-		return HttpSuccessResponse.<List<GroupItem>>builder().data(groupService.selectGroupListByUserSeqService(item.getUSeq())).build();
+		return HttpSuccessResponse.<List<GroupItem>>builder().status(StatusEnum.SUCCESS).data(groupService.selectGroupListByUserSeqService(item.getUSeq())).build();
 	}
 	
 	/**
@@ -49,7 +50,7 @@ public class GroupController {
 	public HttpSuccessResponse<Integer> insertGroupbyUserSeq(@RequestHeader(value="X-AUTH-TOKEN") String token,
 															 @PathVariable(value="NAME") String name) {
 		UserItem item = jwtTokenProvider.getUserItem(token);
-		return HttpSuccessResponse.<Integer>builder().data(groupService.insertGroupByUserSeqService(item.getUSeq(), name)).build();
+		return HttpSuccessResponse.<Integer>builder().status(StatusEnum.SUCCESS).data(groupService.insertGroupByUserSeqService(item.getUSeq(), name)).build();
 	}
 	
 }
