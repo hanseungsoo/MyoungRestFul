@@ -5,38 +5,22 @@
 $(document).ready(function() {
 	$('a.home').trigger('click');
 	
-	jQuery.fn.serializeObject = function() {
-		var obj = null;
-		try {
 	
-			// this[0].tagName이 form tag일 경우
-			if(this[0].tagName && this[0].tagName.toUpperCase() == 'FORM' ) {
-				var arr = this.serializeArray();
-			
-				if(arr){
-					obj = {};    
-					jQuery.each(arr, function() {
-						// obj의 key값은 arr의 name, obj의 value는 value값
-						obj[this.name] = this.value;
-					});				
-				}
-			}
-		} catch(e) {
-			alert(e.message);
-		}finally  {}
-		return obj;
-	};
 });
 
-function getSignInPage(_this) {
-	$.ajax({
-        url : './page/signIn.html',
-        crossOrigin: null,
-        success : function(result) {
-            $('main').html(result);
-            setMenuActive(_this);
-        }
-    });
+function getLoginPage(_this) {
+	if($(_this).text() == 'LogIn') {
+		$.ajax({
+	        url : './page/signIn.html',
+	        crossOrigin: null,
+	        success : function(result) {
+	            $('main').html(result);
+	            setMenuActive(_this);
+	        }
+	    });
+	} else {
+		alert('로그아웃 구현!');
+	}
 };
 
 function getHomePage(_this) {
@@ -77,6 +61,8 @@ function btnRegister() {
 		    	if(msg.status == 'SUCCESS') {
 		    		if(msg.data == 1) {
 		    			alert('가입에 성공하였습니다.');
+		    			getHomePage($('a.home'));
+		    			$('a.logIn').text('LogOut');
 		    		} else {
 		    			alert('가입에 실패하였습니다.');
 		    		}
