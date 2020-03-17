@@ -1,0 +1,7 @@
+[
+  {"name":"id","title":"ID","breakpoints":"xs sm","type":"number","style":{"width":80,"maxWidth":80}},
+  {"name":"1","title":"First Name"},
+  {"name":"2","title":"Last Name"},
+  {"name":"3","title":"Last Name"},
+  {"name":"4","title":"Last Name"}
+]
