@@ -4,10 +4,13 @@ import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
+import io.myoung.sample.dao.HistoryDao;
 import io.myoung.sample.dao.UserDao;
 import io.myoung.sample.exception.EncryptException;
 import io.myoung.sample.exception.UserException;
+import io.myoung.sample.model.HistoryItem;
 import io.myoung.sample.model.UserItem;
 import io.myoung.sample.util.AesUtil;
 
@@ -20,6 +23,8 @@ public class UserService {
 	@Autowired
 	private UserDao userDao;
 	@Autowired
+	private HistoryDao historyDao;
+	@Autowired
 	private AesUtil aesUtil;
 
 	/**
@@ -28,6 +33,7 @@ public class UserService {
 	 * @return : 정상 등록이면 1, 오류면 오류 응답 발송
 	 * @throws EncryptException : 패스워드 암호화 관련 에러 발생
 	 */
+	@Transactional
 	public Integer insertUserService(UserItem item) {
 		item.setPassword(aesUtil.encAES(item.getPassword()));
 		item.setRole("USER");
@@ -35,6 +41,11 @@ public class UserService {
 		
 		if(count == 0)
 			throw new UserException("유저 생성에 실패하였습니다.");
+		else if(count == 1) {
+			int uSeq = userDao.selectUserByEmailDao(item.getEmail()).getUSeq();
+			historyDao.insertHistory(HistoryItem.builder().flag("UC").uSeq(uSeq).build());
+		}
+			
 		return count;
 	}
 	
