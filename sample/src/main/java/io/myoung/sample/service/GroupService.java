@@ -4,6 +4,7 @@ import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import io.myoung.sample.dao.GroupDao;
 import io.myoung.sample.dao.HistoryDao;
@@ -41,6 +42,7 @@ public class GroupService {
 	 * @param name : 새로운 그룹 명
 	 * @return : 등록 결과(0,1)
 	 */
+	@Transactional
 	public Integer insertGroupByUserSeqService(int uSeq, String name) {
 		int count = groupDao.insertGroupByUserSeqDao(uSeq, name);
 		
@@ -53,6 +55,7 @@ public class GroupService {
 		return count;
 	}
 	
+	@Transactional
 	public Integer deleteGroupByGseqService(int gSeq, int uSeq) {
 		int count = groupDao.deleteGroupByGseqDao(gSeq);
 		if (count != 0) {
