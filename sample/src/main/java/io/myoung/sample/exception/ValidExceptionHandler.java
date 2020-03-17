@@ -11,6 +11,7 @@ import org.springframework.web.bind.annotation.RestControllerAdvice;
 
 import io.myoung.sample.controller.response.HttpErrorResponse;
 import io.myoung.sample.model.ErrorItem;
+import io.myoung.sample.value.StatusEnum;
 
 /**
  * ValidExceptionHandler.java
@@ -32,43 +33,43 @@ public class ValidExceptionHandler {
             errorList.add(item);
         }
         
-        return HttpErrorResponse.builder().message(e.getMessage()).status("Valid").errors(errorList).build();
+        return HttpErrorResponse.builder().message(e.getMessage()).status(StatusEnum.VALID).errors(errorList).build();
     }
 	
 	@ExceptionHandler(EmptyResultDataAccessException.class)
     protected HttpErrorResponse handleEmptyResultDataAccessException(EmptyResultDataAccessException e) {
         
-        return HttpErrorResponse.builder().message(e.getMessage()).status("Error").errors(null).build();
+        return HttpErrorResponse.builder().message(e.getMessage()).status(StatusEnum.ERROR).errors(null).build();
     }
 	
 	@ExceptionHandler(EncryptException.class)
     protected HttpErrorResponse handleEncryptException(EncryptException e) {
         
-        return HttpErrorResponse.builder().message(e.getMessage()).status("Error").errors(null).build();
+        return HttpErrorResponse.builder().message(e.getMessage()).status(StatusEnum.ERROR).errors(null).build();
     }
 	
 	@ExceptionHandler(UserException.class)
     protected HttpErrorResponse handleUserCreateException(UserException e) {
         
-        return HttpErrorResponse.builder().message(e.getMessage()).status("Error").errors(null).build();
+        return HttpErrorResponse.builder().message(e.getMessage()).status(StatusEnum.ERROR).errors(null).build();
     }
 
 	@ExceptionHandler(GroupException.class)
     protected HttpErrorResponse handleGroupSelectException(GroupException e) {
         
-        return HttpErrorResponse.builder().message(e.getMessage()).status("Error").errors(null).build();
+        return HttpErrorResponse.builder().message(e.getMessage()).status(StatusEnum.ERROR).errors(null).build();
     }
 	
 	@ExceptionHandler(FriendException.class)
     protected HttpErrorResponse handleFriendException(FriendException e) {
         
-        return HttpErrorResponse.builder().message(e.getMessage()).status("Error").errors(null).build();
+        return HttpErrorResponse.builder().message(e.getMessage()).status(StatusEnum.ERROR).errors(null).build();
     }
 	
 	@ExceptionHandler(UserLoginException.class)
     protected HttpErrorResponse handleUserLoginException(UserLoginException e) {
         
-        return HttpErrorResponse.builder().message(e.getMessage()).status("Error").errors(null).build();
+        return HttpErrorResponse.builder().message(e.getMessage()).status(StatusEnum.ERROR).errors(null).build();
     }
 	
 }

@@ -14,6 +14,7 @@ import io.myoung.sample.security.JwtTokenProvider;
 import io.myoung.sample.security.UserDetailsImpl;
 import io.myoung.sample.security.UserDetailsServiceImpl;
 import io.myoung.sample.util.AesUtil;
+import io.myoung.sample.value.StatusEnum;
 
 @RestController
 @RequestMapping(value="/auth")
@@ -33,6 +34,6 @@ public class JwtAuthenticationController {
 		if (!authenticationRequest.getPassword().equals(aesUtil.decAES(item.getPassword())))
             throw new UserLoginException("패스워드가 틀렸습니다.");
 		
-		return HttpSuccessResponse.<JwtTokenItem>builder().data(new JwtTokenItem(jwtTokenProvider.createToken(item))).build();
+		return HttpSuccessResponse.<JwtTokenItem>builder().status(StatusEnum.SUCCESS).data(new JwtTokenItem(jwtTokenProvider.createToken(item))).build();
 	}
 }

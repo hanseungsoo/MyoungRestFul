@@ -1,5 +1,6 @@
 package io.myoung.sample.controller.response;
 
+import io.myoung.sample.value.StatusEnum;
 import lombok.Builder;
 import lombok.Data;
 
@@ -10,5 +11,6 @@ import lombok.Data;
 @Data
 @Builder
 public class HttpSuccessResponse<T> {
+	private StatusEnum status;
 	private T data;
 }

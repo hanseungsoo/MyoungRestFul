@@ -16,6 +16,7 @@ import io.myoung.sample.controller.response.HttpSuccessResponse;
 import io.myoung.sample.model.UserItem;
 import io.myoung.sample.security.JwtTokenProvider;
 import io.myoung.sample.service.UserService;
+import io.myoung.sample.value.StatusEnum;
 
 /**
  * UserController.java
@@ -38,7 +39,7 @@ public class UserController {
 	@RequestMapping(method=RequestMethod.GET, value="/info")
 	public HttpSuccessResponse<UserItem> getUser(@RequestHeader(value="X-AUTH-TOKEN") String token) {
 		UserItem item = jwtTokenProvider.getUserItem(token);
-		return HttpSuccessResponse.<UserItem>builder().data(userService.selectUserByUserSeqService(item.getUSeq())).build();
+		return HttpSuccessResponse.<UserItem>builder().status(StatusEnum.SUCCESS).data(userService.selectUserByUserSeqService(item.getUSeq())).build();
 	}
 	
 	/**
@@ -48,7 +49,7 @@ public class UserController {
 	 */
 	@RequestMapping(method=RequestMethod.GET, value="/info/{U_NAME}")
 	public HttpSuccessResponse<List<UserItem>> getUserByUname(@PathVariable(value="U_NAME") String uName) {
-		return HttpSuccessResponse.<List<UserItem>>builder().data(userService.selectUserByUnameService(uName)).build();
+		return HttpSuccessResponse.<List<UserItem>>builder().status(StatusEnum.SUCCESS).data(userService.selectUserByUnameService(uName)).build();
 	}
 	
 	/**
@@ -59,6 +60,6 @@ public class UserController {
 	 */
 	@RequestMapping(method=RequestMethod.POST)
 	public HttpSuccessResponse<Integer> insertUser(@RequestBody @Valid UserItem item) throws Exception {
-		return HttpSuccessResponse.<Integer>builder().data(userService.insertUserService(item)).build();
+		return HttpSuccessResponse.<Integer>builder().status(StatusEnum.SUCCESS).data(userService.insertUserService(item)).build();
 	}
 }
