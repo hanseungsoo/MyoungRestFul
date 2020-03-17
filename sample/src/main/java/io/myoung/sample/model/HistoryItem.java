@@ -1,10 +1,8 @@
 package io.myoung.sample.model;
 
-import java.math.BigDecimal;
 import java.util.Date;
 
 import lombok.Builder;
-import lombok.Builder.Default;
 import lombok.Data;
 
 /**
