@@ -6,8 +6,10 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import io.myoung.sample.dao.GroupDao;
+import io.myoung.sample.dao.HistoryDao;
 import io.myoung.sample.exception.GroupException;
 import io.myoung.sample.model.GroupItem;
+import io.myoung.sample.model.HistoryItem;
 
 /**
  * GroupService.java
@@ -17,6 +19,8 @@ import io.myoung.sample.model.GroupItem;
 public class GroupService {
 	@Autowired
 	private GroupDao groupDao;
+	@Autowired
+	private HistoryDao historyDao;
 
 	/**
 	 * @메소드설명 : 사용자 키로 사용자가 가진 그룹 리스트를 가져 온다.
@@ -42,6 +46,8 @@ public class GroupService {
 		
 		if(count == 0) {
 			throw new GroupException("그룹 생성에 실패하였습니다.");
+		}else if (count == 1) {
+			historyDao.insertHistory(HistoryItem.builder().flag("GC").fSeq(fSeq).uSeq(uSeq).build());
 		}
 		return count;
 	}
