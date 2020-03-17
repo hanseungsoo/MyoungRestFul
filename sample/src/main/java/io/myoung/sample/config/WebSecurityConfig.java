@@ -14,15 +14,12 @@ import org.springframework.security.config.http.SessionCreationPolicy;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
 
 import io.myoung.sample.config.security.JwtAuthenticationFilter;
-import io.myoung.sample.security.JwtTokenProvider;
 
 @Configuration
 @EnableWebSecurity
 @EnableGlobalMethodSecurity(prePostEnabled = true)
 public class WebSecurityConfig extends WebSecurityConfigurerAdapter{
 	
-	@Autowired
-	private JwtTokenProvider jwtTokenProvider;
 	@Autowired
 	JwtAuthenticationFilter jwtAuthenticationFilter;
 	 
