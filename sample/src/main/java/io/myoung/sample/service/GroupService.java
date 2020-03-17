@@ -47,7 +47,16 @@ public class GroupService {
 		if(count == 0) {
 			throw new GroupException("그룹 생성에 실패하였습니다.");
 		}else if (count == 1) {
-			historyDao.insertHistory(HistoryItem.builder().flag("GC").fSeq(fSeq).uSeq(uSeq).build());
+			int gSeq = groupDao.selectGroupByUseqnNameDao(uSeq, name).getGSeq();
+			historyDao.insertHistory(HistoryItem.builder().flag("GC").gSeq(gSeq).uSeq(uSeq).build());
+		}
+		return count;
+	}
+	
+	public Integer deleteGroupByGseqService(int gSeq, int uSeq) {
+		int count = groupDao.deleteGroupByGseqDao(gSeq);
+		if (count != 0) {
+			historyDao.insertHistory(HistoryItem.builder().flag("GD").gSeq(gSeq).uSeq(uSeq).build());
 		}
 		return count;
 	}

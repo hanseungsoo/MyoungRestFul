@@ -54,9 +54,20 @@ public class GroupDao {
                 "select * from TB_GROUP where G_SEQ = ?", new GroupMapper(), gSeq);
     }
 	
-	public GroupItem selectGroupByUserNameDao(String name) throws EmptyResultDataAccessException {
+	public GroupItem selectGroupByUseqnNameDao(int uSeq, String name) throws EmptyResultDataAccessException {
 		return jdbcTemplate.queryForObject(
-                "select count(1) as cnt from from TB_USER a " +
-                "inner join TB_GROUP b on (a.NAME = '한승수' and a.U_SEQ = b.U_SEQ) where NAME = ?", new GroupMapper(), name);
-    }
+                "select * from TB_GROUP where U_SEQ = ? and NAME = ?", new GroupMapper(), uSeq, name);
+	}
+	
+	public Integer deleteGroupByGseqDao(int gSeq) {
+		return jdbcTemplate.update("delete from TB_GROUP where G_SEQ = ?",gSeq);
+	}
+	
+//	public GroupItem selectGroupByUserNameDao(String name) throws EmptyResultDataAccessException {
+//		return jdbcTemplate.queryForObject(
+//                "select count(1) as cnt from from TB_USER a " +
+//                "inner join TB_GROUP b on (a.NAME = ? and a.U_SEQ = b.U_SEQ)", new GroupMapper(), name);
+//    }
+	
+	
 }
