@@ -8,9 +8,11 @@ import org.springframework.transaction.annotation.Transactional;
 
 import io.myoung.sample.dao.FriendDao;
 import io.myoung.sample.dao.GroupDao;
+import io.myoung.sample.dao.HistoryDao;
 import io.myoung.sample.exception.FriendException;
 import io.myoung.sample.exception.GroupException;
 import io.myoung.sample.model.GroupItem;
+import io.myoung.sample.model.HistoryItem;
 import io.myoung.sample.model.UserItem;
 
 
@@ -24,6 +26,8 @@ public class FriendService {
 	private FriendDao friendDao;
 	@Autowired
 	private GroupDao groupDao;
+	@Autowired
+	private HistoryDao historyDao;
 
 	
 	public List<UserItem> selectAllFriendService(int uSeq) {
@@ -64,6 +68,9 @@ public class FriendService {
 		if(count == 0) {
 			throw new FriendException("주소록에 추가하지 못했습니다.");
 		}
+		else if (count == 1) {
+			historyDao.insertHistory(HistoryItem.builder().flag("GFC").gSeq(gSeq).fSeq(fSeq).uSeq(uSeq).build());
+		}
 		
 		return count;
 	}
@@ -79,6 +86,8 @@ public class FriendService {
 		count = friendDao.insertFriendByFriendSeqDao(fSeq, uSeq);
 		if(count == 0) {
 			throw new FriendException("주소록에 추가하지 못했습니다.");
+		}else if (count == 1) {
+			historyDao.insertHistory(HistoryItem.builder().flag("FC").fSeq(fSeq).uSeq(uSeq).build());
 		}
 		return count;
 	}
@@ -96,6 +105,8 @@ public class FriendService {
 		count = friendDao.deleteFriendByFriendSeqDao(fSeq, uSeq);
 		if(count == 0) {
 			throw new FriendException("삭제할 친구 정보가 없습니다.");
+		}else if (count == 1) {
+			historyDao.insertHistory(HistoryItem.builder().flag("FD").fSeq(fSeq).uSeq(uSeq).build());
 		}
 		return count;
 		

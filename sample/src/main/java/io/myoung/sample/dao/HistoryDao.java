@@ -16,7 +16,7 @@ import io.myoung.sample.model.HistoryItem;
 public class HistoryDao {
 	@Autowired
 	private JdbcTemplate jdbcTemplate;
-	
+	 
 	public Integer insertHistory(HistoryItem history) {
 		BigDecimal uSeq = history.getUSeq()==0?null:new BigDecimal(history.getUSeq());
 		BigDecimal fSeq = history.getFSeq()==0?null:new BigDecimal(history.getFSeq());

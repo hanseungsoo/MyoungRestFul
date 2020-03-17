@@ -14,7 +14,7 @@ import lombok.Data;
 @Data
 @Builder
 public class HistoryItem {
-	
+	 
 	private int hSeq;
 	private String flag;
 	private Date actionTime;
