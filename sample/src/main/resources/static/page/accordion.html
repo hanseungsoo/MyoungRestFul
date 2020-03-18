@@ -1,0 +1,26 @@
+<div id="accordion{SEQ}">
+  <div class="card bg-info">
+    <div class="card-header text-left" id="heading{SEQ}">
+      <h5 class="mb-0">
+        <button class="btn text-light" data-toggle="collapse" data-target="#collapse{SEQ}" aria-expanded="true" aria-controls="collapse{SEQ}" onclick="getFriendByGroup(this)">
+           	{NAME}
+        </button>
+      </h5>
+    </div>
+
+    <div id="collapse{SEQ}" class="collapse" aria-labelledby="heading{SEQ}" data-parent="#accordion">
+      <div class="card-body">
+        <table id="example{SEQ}" class="table table-dark table-striped table-bordered" style="width:100%">
+        	<thead>
+            <tr>
+            	<th></th>
+                <th>Name</th>
+                <th>EMAIL</th>
+                <th>PHONE</th>
+            </tr>
+        </thead>
+        </table>
+      </div>
+    </div>
+  </div>
+</div>
