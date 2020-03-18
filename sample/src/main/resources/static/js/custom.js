@@ -1,6 +1,6 @@
 
 $(document).ready(function() {
-	$('a.home').trigger('click');
+	$('a.logIn').trigger('click');
 });
 
 function doLoginAction(_this) {
@@ -14,8 +14,21 @@ function doLoginAction(_this) {
         	if(msg.status == 'SUCCESS') {
 	    		if(msg.data.token != '' || msg.data.token != undefined) {
 	    			$.cookie('token', msg.data.token);
-	    			getHomePage($('a.home'));
+	    			
+	    			if($('a.book') != null) {
+	    				$.ajax({
+		    		        url : './page/menu.html',
+		    		        crossOrigin: true,
+		    		        success : function(result) {
+		    		        	$('a.active').before(result);
+		    		            
+		    		            
+		    		        }
+		    		    });
+	    			}
+	    			getBookPage($('a.book'));
 	    			$('a.logIn').text('LogOut');
+	    			
 	    		} else {
 	    			alert('로그인에 실패하였습니다.');
 	    		}
@@ -27,29 +40,49 @@ function doLoginAction(_this) {
 }
 
 function getFriendByGroup(_this) {
-	
 	if($(_this).attr('class').indexOf('tableDraw') == -1) {
 		var table = $('#dataTableAll').DataTable({
 			'columnDefs': [
-			    { 'orderable': false, 'targets': 0 }
+				{
+		            "targets": 0,
+		            "data": null,          // This does the trick... Adding data ...
+		            "visible": true,      // And making this columns invisible ...
+		            "defaultContent" : '',
+		            "orderable" : false,
+		            "searchable": false,
+		            },
+		            {
+		             "targets": 1,        // By doing the trick above ...
+		             "data": "NAME",        // this column becomes the first visible one ... (and no)
+		             "orderable" : false,
+		            "searchable": false,
+		            },
+		             {
+		             "targets": 2,
+		             "data": "EMAIL",
+		             "orderable" : false,
+		            "searchable": false,
+		             },
+		            {
+		            "targets": 3,
+		            "data": "PHONE",
+		            "orderable" : true,
+		            "searchable": true,
+		            }
 			  ],
 			'processing': true,
 			'lengthChange': false,
 			'searching': false,
 			'info': false,
-			ajax: {
-				url: './json/rows.json',
-				dataSrc: '',
-				columns: [
-			        { data: 'name' },
-			        { data: 'email' },
-			        { data: 'phone' }
-			    ]
+			'ajax': {
+				url:'./json/rows.json' 
 			}
 		});
-		table
-		.order([1, 'desc'])
-		.draw();
+		
+//		table.on( 'xhr', function () {
+//		    var json = table.ajax.json();
+//		    alert( json.data.length +' row(s) were loaded' );
+//		} );
 		
 		$(_this).addClass('tableDraw');
 	}
@@ -69,20 +102,10 @@ function getLoginPage(_this) {
 	} else {
 		$.removeCookie('token');
 		$('a.logIn').text('LogIn');
-		getHomePage($('a.home'));
+		getLoginPage($('a.logIn'));
 	}
 };
 
-function getHomePage(_this) {
-	$.ajax({
-        url : './page/main.html',
-        crossOrigin: true,
-        success : function(result) {
-            $('main').html(result);
-            setMenuActive(_this);
-        }
-    });
-};
 
 function getBookPage(_this) {
 	$.ajax({

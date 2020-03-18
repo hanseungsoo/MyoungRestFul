@@ -1,12 +1,17 @@
-[
-	{"NAME":"1","EMAIL":"aaa","PHONE":"bbb"},
-	{"NAME":"1","EMAIL":"aaa","PHONE":"bbb"},
-	{"NAME":"1","EMAIL":"aaa","PHONE":"bbb"},
-	{"NAME":"1","EMAIL":"aaa","PHONE":"bbb"},
-	{"NAME":"1","EMAIL":"aaa","PHONE":"bbb"},
-	{"NAME":"1","EMAIL":"aaa","PHONE":"bbb"},
-	{"NAME":"1","EMAIL":"aaa","PHONE":"bbb"},
-	{"NAME":"1","EMAIL":"aaa","PHONE":"bbb"},
-	{"NAME":"1","EMAIL":"aaa","PHONE":"bbb"},
-	{"NAME":"1","EMAIL":"aaa","PHONE":"bbb"}
-]
+{
+	"draw": 1,
+    "recordsTotal": 10,
+    "recordsFiltered": 10,
+	"data": [
+		{"NAME":"1","EMAIL":"aaa","PHONE":"bbb"},
+		{"NAME":"1","EMAIL":"aaa","PHONE":"bbb"},
+		{"NAME":"1","EMAIL":"aaa","PHONE":"bbb"},
+		{"NAME":"1","EMAIL":"aaa","PHONE":"bbb"},
+		{"NAME":"1","EMAIL":"aaa","PHONE":"bbb"},
+		{"NAME":"1","EMAIL":"aaa","PHONE":"bbb"},
+		{"NAME":"1","EMAIL":"aaa","PHONE":"bbb"},
+		{"NAME":"1","EMAIL":"aaa","PHONE":"bbb"},
+		{"NAME":"1","EMAIL":"aaa","PHONE":"bbb"},
+		{"NAME":"1","EMAIL":"aaa","PHONE":"bbb"}
+	] 
+}
