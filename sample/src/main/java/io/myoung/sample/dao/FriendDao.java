@@ -1,9 +1,11 @@
 package io.myoung.sample.dao;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.jdbc.core.JdbcTemplate;
+import org.springframework.jdbc.core.simple.SimpleJdbcCall;
 import org.springframework.stereotype.Repository;
 
 import io.myoung.sample.mapper.FriendUserMapper;
@@ -23,8 +25,8 @@ public class FriendDao {
 	public List<UserItem> selectAllFriendDao(int uSeq) {
 		
 		return jdbcTemplate.query(
-				"select * from TB_FRIEND " +
-		        "where U_SEQ = ?",new Object[] {uSeq},new FriendUserMapper());
+				"select * from TB_USER where U_SEQ in (select F_SEQ from TB_FRIEND where U_SEQ=?)"
+				,new Object[] {uSeq},new FriendUserMapper());
 	}
 
 	/**
@@ -65,17 +67,29 @@ public class FriendDao {
                 "values(?, ?)", uSeq, fSeq);
     }
 	
-	public Integer deleteFriendByFriendSeqDao(int fSeq[],int uSeq) {
-		return jdbcTemplate.update(
-				"delete from TB_FRIEND" + 
-				"where U_SEQ=? and F_SEQ",uSeq,fSeq);
+	public int[] deleteFriendByFriendSeqDao(Integer fSeq[],int uSeq) {
+		List<Object[]> batch = new ArrayList<Object[]>();
+		for(int i=0;i<fSeq.length;i++) {
+			Object[] values = new Object[] {
+				uSeq,fSeq[i]};
+			batch.add(values);
+		}
+		return jdbcTemplate.batchUpdate(
+				"delete from TB_FRIEND " + 
+				"where U_SEQ=? and F_SEQ=?",batch);
 	}
 	
-	public Integer deleteFriendtoGroupByFriendSeqDao(int[] fSeq,int uSeq) {
-		return jdbcTemplate.update(
-				"delete from TB_GROUP_TO_FRIEND" + 
-				"where F_SEQ=?" + 
-				"G_SEQ=(select G_SEQ from TB_GROUP where U_SEQ=?)",fSeq,uSeq);
+	public int[] deleteFriendtoGroupByFriendSeqDao(Integer[] fSeq,int uSeq) {
+		List<Object[]> batch = new ArrayList<Object[]>();
+		for(int i=0;i<fSeq.length;i++) {
+			Object[] values = new Object[] {
+				fSeq[i],uSeq};
+			batch.add(values);
+		}
+		return jdbcTemplate.batchUpdate("delete from TB_GROUP_TO_FRIEND " + 
+				"where F_SEQ=? and " + 
+				"G_SEQ=(select G_SEQ from TB_GROUP where U_SEQ=?)", batch);
+
 	}
 	
 

@@ -52,6 +52,7 @@ public class UserDao {
     }
 	
 	public UserItem selectUserByEmailDao(String email) {
+		System.out.println("################여기는 select");
 		return jdbcTemplate.query(
                 "select * from TB_USER where Email = ?", new Object[] {email}, new UserMapper()).get(0);
     }

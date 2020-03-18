@@ -90,10 +90,15 @@ public class FriendService {
 	 * @return : 등록 결과(0,1 이상)
 	 */
 	@Transactional
-	public Integer deleteFriendByFriendSeqService(int[] fSeq, int uSeq) {
-		int count;
+	public Integer deleteFriendByFriendSeqService(Integer[] fSeq, int uSeq) {
+		int count = 0;
+		int[] returnCnt;
 		friendDao.deleteFriendtoGroupByFriendSeqDao(fSeq, uSeq);
-		count = friendDao.deleteFriendByFriendSeqDao(fSeq, uSeq);
+		returnCnt = friendDao.deleteFriendByFriendSeqDao(fSeq, uSeq);
+		
+		for(int i=0;i<returnCnt.length;i++) {
+			count += returnCnt[i];
+		}
 		if(count == 0) {
 			throw new FriendException("삭제할 친구 정보가 없습니다.");
 		}

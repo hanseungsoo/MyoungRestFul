@@ -1,6 +1,7 @@
 package io.myoung.sample.controller;
 
 import java.util.List;
+import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -82,10 +83,10 @@ public class FriendController {
 //		return HttpSuccessResponse.<Integer>builder().status(StatusEnum.SUCCESS).data(friendService.deleteFriendByFriendSeqService(fSeq, item.getUSeq())).build();
 //	}
 //	
-	@RequestMapping(method = RequestMethod.DELETE, value = "/")
+	@RequestMapping(method = RequestMethod.DELETE)
 	public HttpSuccessResponse<Integer> deleteFriendsByFSeq(
-			@RequestBody int[] fSeq,
-			@RequestHeader(value="X-AUTH-TOKEN") String token){
+			@RequestHeader(value="X-AUTH-TOKEN") String token,
+			@RequestBody Integer[] fSeq){
 		UserItem item = jwtTokenProvider.getUserItem(token);
 		return HttpSuccessResponse.<Integer>builder().status(StatusEnum.SUCCESS).data(friendService.deleteFriendByFriendSeqService(fSeq, item.getUSeq())).build();
 	}
