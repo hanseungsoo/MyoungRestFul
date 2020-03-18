@@ -43,16 +43,17 @@ public class GroupService {
 	 * @return : 등록 결과(0,1)
 	 */
 	@Transactional
-	public Integer insertGroupByUserSeqService(int uSeq, String name) {
+	public GroupItem insertGroupByUserSeqService(int uSeq, String name) {
 		int count = groupDao.insertGroupByUserSeqDao(uSeq, name);
-		int gSeq = 0;
+		GroupItem group = null;
 		if(count == 0) {
 			throw new GroupException("그룹 생성에 실패하였습니다.");
 		}else if (count == 1) {
-			gSeq = groupDao.selectGroupByUseqnNameDao(uSeq, name).getGSeq();
+			group = groupDao.selectGroupByUseqnNameDao(uSeq, name);
+			int gSeq = group.getGSeq();
 			historyDao.insertHistory(HistoryItem.builder().flag("GC").gSeq(gSeq).uSeq(uSeq).build());
 		}
-		return new Integer(gSeq);
+		return group;
 	}
 	
 	@Transactional
