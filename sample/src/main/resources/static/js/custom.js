@@ -171,3 +171,14 @@ function passwordKeyChecker(){
 		} 
 	}
 }
+
+function addGroup() {
+	$.ajax({
+        url : './page/accordion.html',
+        crossOrigin: true,
+        success : function(result) {
+        	var tmp = result.replace(/{SEQ}/gi, 22);
+        	$('#accordionMain').append(tmp);
+        }
+    });
+}
