@@ -90,7 +90,7 @@ public class FriendService {
 	 * @return : 등록 결과(0,1 이상)
 	 */
 	@Transactional
-	public Integer deleteFriendByFriendSeqService(int fSeq, int uSeq) {
+	public Integer deleteFriendByFriendSeqService(int[] fSeq, int uSeq) {
 		int count;
 		friendDao.deleteFriendtoGroupByFriendSeqDao(fSeq, uSeq);
 		count = friendDao.deleteFriendByFriendSeqDao(fSeq, uSeq);

@@ -4,6 +4,7 @@ import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestHeader;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
@@ -73,12 +74,19 @@ public class FriendController {
 		return HttpSuccessResponse.<Integer>builder().status(StatusEnum.SUCCESS).data(friendService.insertFriendByFriendSeqService(fSeq,item.getUSeq())).build();
 	}
 	
-	@RequestMapping(method = RequestMethod.DELETE, value = "/{F_SEQ}")
-	public HttpSuccessResponse<Integer> deleteFriendByFriendSeq(
-			@RequestHeader(value="X-AUTH-TOKEN") String token,
-			@PathVariable(value="F_SEQ") int fSeq){
+//	@RequestMapping(method = RequestMethod.DELETE, value = "/{F_SEQ}")
+//	public HttpSuccessResponse<Integer> deleteFriendByFriendSeq(
+//			@RequestHeader(value="X-AUTH-TOKEN") String token,
+//			@PathVariable(value="F_SEQ") int fSeq){
+//		UserItem item = jwtTokenProvider.getUserItem(token);
+//		return HttpSuccessResponse.<Integer>builder().status(StatusEnum.SUCCESS).data(friendService.deleteFriendByFriendSeqService(fSeq, item.getUSeq())).build();
+//	}
+//	
+	@RequestMapping(method = RequestMethod.DELETE, value = "/")
+	public HttpSuccessResponse<Integer> deleteFriendsByFSeq(
+			@RequestBody int[] fSeq,
+			@RequestHeader(value="X-AUTH-TOKEN") String token){
 		UserItem item = jwtTokenProvider.getUserItem(token);
 		return HttpSuccessResponse.<Integer>builder().status(StatusEnum.SUCCESS).data(friendService.deleteFriendByFriendSeqService(fSeq, item.getUSeq())).build();
-		
 	}
 }

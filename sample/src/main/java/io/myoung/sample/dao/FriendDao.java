@@ -65,17 +65,18 @@ public class FriendDao {
                 "values(?, ?)", uSeq, fSeq);
     }
 	
-	public Integer deleteFriendByFriendSeqDao(int fSeq,int uSeq) {
+	public Integer deleteFriendByFriendSeqDao(int fSeq[],int uSeq) {
 		return jdbcTemplate.update(
 				"delete from TB_FRIEND" + 
 				"where U_SEQ=? and F_SEQ",uSeq,fSeq);
 	}
 	
-	public Integer deleteFriendtoGroupByFriendSeqDao(int fSeq,int uSeq) {
+	public Integer deleteFriendtoGroupByFriendSeqDao(int[] fSeq,int uSeq) {
 		return jdbcTemplate.update(
 				"delete from TB_GROUP_TO_FRIEND" + 
 				"where F_SEQ=?" + 
 				"G_SEQ=(select G_SEQ from TB_GROUP where U_SEQ=?)",fSeq,uSeq);
 	}
 	
+
 }

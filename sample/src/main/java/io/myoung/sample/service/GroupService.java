@@ -45,19 +45,21 @@ public class GroupService {
 	@Transactional
 	public Integer insertGroupByUserSeqService(int uSeq, String name) {
 		int count = groupDao.insertGroupByUserSeqDao(uSeq, name);
-		
+		int gSeq = 0;
 		if(count == 0) {
 			throw new GroupException("그룹 생성에 실패하였습니다.");
 		}else if (count == 1) {
-			int gSeq = groupDao.selectGroupByUseqnNameDao(uSeq, name).getGSeq();
+			gSeq = groupDao.selectGroupByUseqnNameDao(uSeq, name).getGSeq();
 			historyDao.insertHistory(HistoryItem.builder().flag("GC").gSeq(gSeq).uSeq(uSeq).build());
 		}
-		return count;
+		return new Integer(gSeq);
 	}
 	
 	@Transactional
 	public Integer deleteGroupByGseqService(int gSeq, int uSeq) {
+		groupDao.deleteFriendtoGroupByGSeqDao(gSeq);
 		int count = groupDao.deleteGroupByGseqDao(gSeq);
+		
 		if (count != 0) {
 			historyDao.insertHistory(HistoryItem.builder().flag("GD").gSeq(gSeq).uSeq(uSeq).build());
 		}
