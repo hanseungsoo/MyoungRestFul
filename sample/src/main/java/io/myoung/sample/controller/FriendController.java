@@ -12,6 +12,7 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 
 import io.myoung.sample.controller.response.HttpSuccessResponse;
+import io.myoung.sample.model.DuplGroupItem;
 import io.myoung.sample.model.UserItem;
 import io.myoung.sample.security.JwtTokenProvider;
 import io.myoung.sample.service.FriendService;
@@ -50,6 +51,19 @@ public class FriendController {
 	public HttpSuccessResponse<List<UserItem>> getFriendByUserSeqAndGroupSeq(@PathVariable(value="G_SEQ") int gSeq) {
 		return HttpSuccessResponse.<List<UserItem>>builder().status(StatusEnum.SUCCESS).data(friendService.selectFriendByGroupSeqService(gSeq)).build();
 	}
+	
+	@RequestMapping(method=RequestMethod.GET, value="/duplname")
+	public HttpSuccessResponse<List<DuplGroupItem>> getDuplNameByUSeq(@RequestHeader(value="X-AUTH-TOKEN") String token) {
+		UserItem item = jwtTokenProvider.getUserItem(token);
+		return HttpSuccessResponse.<List<DuplGroupItem>>builder().status(StatusEnum.SUCCESS).data(friendService.selectDuplByUseq(item.getUSeq(), "NAME")).build();
+	}
+	
+	@RequestMapping(method=RequestMethod.GET, value="/duplphone")
+	public HttpSuccessResponse<List<DuplGroupItem>> getDuplPhoneByUSeq(@RequestHeader(value="X-AUTH-TOKEN") String token) {
+		UserItem item = jwtTokenProvider.getUserItem(token);
+		return HttpSuccessResponse.<List<DuplGroupItem>>builder().status(StatusEnum.SUCCESS).data(friendService.selectDuplByUseq(item.getUSeq(), "PHONE")).build();
+	}
+
 	
 	/**
 	 * @메소드설명 : 특정 그룹에 유저를 등록한다. 

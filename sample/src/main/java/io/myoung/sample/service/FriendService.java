@@ -10,6 +10,7 @@ import io.myoung.sample.dao.FriendDao;
 import io.myoung.sample.dao.GroupDao;
 import io.myoung.sample.exception.FriendException;
 import io.myoung.sample.exception.GroupException;
+import io.myoung.sample.model.DuplGroupItem;
 import io.myoung.sample.model.GroupItem;
 import io.myoung.sample.model.UserItem;
 
@@ -39,6 +40,14 @@ public class FriendService {
 		return friendDao.selectFriendByGroupSeqDao(gSeq);
 	}
 	
+	public List<DuplGroupItem> selectDuplByUseq(int uSeq, String NameOrPhone){
+		return friendDao.selectDuplByUseqDao(uSeq,NameOrPhone);
+	}
+//	
+//	public List<DuplGroupItem> selectDuplPhoneByUseq(int uSeq){
+//		return friendDao.selectDuplPhoneByUseqDao(uSeq);
+//	}
+//	
 	/**
 	 * @메소드설명 : 그룹 키를 가지고 그룹을 조회하여 그룹이 '전체'그룹인지 확인 한다.
 	 *           만약 '전체'그룹일 때 유저를 사용자의 주소록에 등록 한다. '전체'그룹이 아니라면 전달된 그룹에만 등록 한다.
@@ -46,6 +55,7 @@ public class FriendService {
 	 * @param gSeq : 그룹의 키
 	 * @return : 등록 결과(0,1)
 	 */
+	
 	@Transactional
 	public Integer insertFriendByFriendSeqService(int fSeq, int gSeq, int uSeq) {
 		GroupItem groupItem = groupDao.selectGroupByGroupSeqDao(gSeq);
