@@ -8,8 +8,31 @@ $(document).ready(function() {
 	
 });
 
+function doLoginAction(_this) {
+	$.ajax({
+		url: 'http://127.0.0.1:8080/auth',
+	    type: 'POST',
+	    data: getFormData($('#loginForm')),
+	    dataType: 'json',
+	    contentType: 'application/json; charset=utf-8',
+        success : function(msg) {
+        	if(msg.status == 'SUCCESS') {
+	    		if(msg.data.token != '' || msg.data.token != undefined) {
+	    			$.cookie('token', msg.data.token);
+	    			getHomePage($('a.home'));
+	    			$('a.logIn').text('LogOut');
+	    		} else {
+	    			alert('로그인에 실패하였습니다.');
+	    		}
+	    	} else {
+	    		alert('로그인에 실패하였습니다.');
+	    	}
+        }
+    });
+}
+
 function getLoginPage(_this) {
-	if($(_this).text() == 'LogIn') {
+	if($.cookie('token') == null && $('a.logIn').text() == 'LogIn') {
 		$.ajax({
 	        url : './page/signIn.html',
 	        crossOrigin: null,
@@ -19,7 +42,9 @@ function getLoginPage(_this) {
 	        }
 	    });
 	} else {
-		alert('로그아웃 구현!');
+		$.removeCookie('token');
+		$('a.logIn').text('LogIn');
+		getHomePage($('a.home'));
 	}
 };
 
@@ -61,12 +86,10 @@ function btnRegister() {
 		    	if(msg.status == 'SUCCESS') {
 		    		if(msg.data == 1) {
 		    			alert('가입에 성공하였습니다.');
-		    			getHomePage($('a.home'));
-		    			$('a.logIn').text('LogOut');
+		    			getLoginPage($('a.logIn'));
 		    		} else {
 		    			alert('가입에 실패하였습니다.');
 		    		}
-		    		getHomePage($('#homeMenu'));
 		    	} else if(msg.status == 'VALID'){
 		    		console.log(msg);
 		    		var errorFields = msg.errors; 

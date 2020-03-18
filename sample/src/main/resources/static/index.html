@@ -11,6 +11,7 @@
 
     <link rel="canonical" href="https://getbootstrap.com/docs/4.4/examples/cover/">
 	<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+	<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-cookie/1.4.1/jquery.cookie.min.js"></script>
     <!-- Bootstrap core CSS -->
 	<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css" integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh" crossorigin="anonymous">
 	<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.min.js" integrity="sha384-wfSDF2E50Y2D1uUdj0O3uMBJnjuUD4Ih7YwaYd1iqfktj0Uod8GCExl3Og8ifwB6" crossorigin="anonymous"></script>
@@ -24,9 +25,10 @@
     
   </head>
   <body class="text-center">
-    <div class="cover-container d-flex w-100 h-100 p-3 mx-auto flex-column">
+    <div class="d-flex w-100 h-100 p-3 mx-auto flex-column">
+    
   <header class="masthead mb-auto">
-    <div class="inner">
+    <div class="inner cover-container">
       <h3 class="masthead-brand">The Book</h3>
       <nav class="nav nav-masthead justify-content-center">
         <a class="nav-link active home" href="#" onclick="getHomePage(this)">Home</a>
@@ -41,7 +43,7 @@
     
   </main>
 
-  <footer class="mastfoot mt-auto">
+  <footer class="mastfoot mt-auto cover-container">
     <div class="inner">
       <p>Cover template for <a href="https://getbootstrap.com/">Bootstrap</a>, by <a href="https://twitter.com/mdo">@mdo</a>.</p>
     </div>
