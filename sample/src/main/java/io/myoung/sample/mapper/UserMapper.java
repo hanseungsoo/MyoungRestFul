@@ -16,7 +16,6 @@ public class UserMapper implements RowMapper<UserItem> {
 	@Override
 	public UserItem mapRow(ResultSet rs, int rowNum) throws SQLException {
 		UserItem item = new UserItem();
-		
 		item.setUSeq(rs.getInt("U_SEQ"));
 		item.setName(rs.getString("NAME"));
 		item.setEmail(rs.getString("EMAIL"));

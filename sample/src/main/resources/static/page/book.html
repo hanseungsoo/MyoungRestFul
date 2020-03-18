@@ -4,32 +4,7 @@
 </div>
 
 <div id="accordionMain">
-	<div id="accordionAll">
-  <div class="card bg-info">
-    <div class="card-header text-left" id="headingAll">
-      <h5 class="mb-0">
-        <button class="btn text-light" data-toggle="collapse" data-target="#collapseAll" aria-expanded="true" aria-controls="collapseAll" onclick="getFriendByGroup(this)">
-           	친구
-        </button>
-      </h5>
-    </div>
-
-    <div id="collapseAll" class="collapse" aria-labelledby="headingAll" data-parent="#accordionAll">
-      <div class="card-body">
-        <table id="dataTableAll" class="table table-dark table-striped table-bordered" style="width:100%">
-        	<thead>
-            <tr>
-            	<th></th>
-                <th>Name</th>
-                <th>EMAIL</th>
-                <th>PHONE</th>
-            </tr>
-        </thead>
-        </table>
-      </div>
-    </div>
-  </div>
-</div>
+	
 </div>
 
 <div class="modal fade" id="bookModalCenter" tabindex="-1" role="dialog" aria-labelledby="bookModalLabel" aria-hidden="true">
@@ -51,6 +26,44 @@
       </div>
       <div class="modal-footer">
         <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+        <button type="button" class="btn btn-primary"></button>
+      </div>
+    </div>
+  </div>
+</div>
+
+
+<div class="modal fade" id="friendModalCenter" tabindex="-1" role="dialog" aria-labelledby="friendModalLabel" aria-hidden="true">
+  <div class="modal-dialog modal-dialog-centered" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title text-dark" id="friendModalLabel"></h5>
+        <button type="button" class="close modalClose" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+        <form id="#">
+          <div class="form-group text-left">
+            <label for="book-name" class="col-form-label text-dark"></label>
+            <input type="text" class="form-control" id="book-name">
+          </div>
+          <div class="form-group text-left">
+            <table id="addfriendTable" class="table table-dark table-bordered" style="width:100%">
+        	<thead>
+            <tr>
+            	<th></th>
+                <th>EMAIL</th>
+                <th>NAME</th>
+                <th>PHONE</th>
+            </tr>
+        </thead>
+        </table>
+          </div>
+        </form>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary modalClose" data-dismiss="modal">Close</button>
         <button type="button" class="btn btn-primary"></button>
       </div>
     </div>

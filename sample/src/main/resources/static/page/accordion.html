@@ -1,21 +1,26 @@
+<br/>
 <div id="accordion{SEQ}">
-  <div class="card bg-info">
+  <div class="card {BG_COLOR}">
     <div class="card-header text-left" id="heading{SEQ}">
       <h5 class="mb-0">
-        <button class="btn text-light" data-toggle="collapse" data-target="#collapse{SEQ}" aria-expanded="true" aria-controls="collapse{SEQ}" onclick="getFriendByGroup(this)">
+        <button class="btn text-light" data-toggle="collapse" data-target="#collapse{SEQ}" aria-expanded="true" aria-controls="collapse{SEQ}" onclick="getFriendByGroup(this, 'dataTable{SEQ}')">
            	{NAME}
         </button>
+        <div class="float-right">
+        	<button type="button" class="btn btn-light" data-toggle="modal" data-target="#friendModalCenter" data-whatever="friendAdd" onclick="{HANDLER_1}">{SVC_1}</button>
+			<button type="button" class="btn btn-dark" onclick="{HANDLER_2}">{SVC_2}</button>
+        </div>
       </h5>
     </div>
 
-    <div id="collapse{SEQ}" class="collapse" aria-labelledby="heading{SEQ}" data-parent="#accordion">
+    <div id="collapse{SEQ}" class="collapse" aria-labelledby="heading{SEQ}" data-parent="#accordion{SEQ}">
       <div class="card-body">
-        <table id="example{SEQ}" class="table table-dark table-striped table-bordered" style="width:100%">
+        <table id="dataTable{SEQ}" class="table table-dark table-bordered" style="width:100%">
         	<thead>
             <tr>
             	<th></th>
-                <th>Name</th>
                 <th>EMAIL</th>
+                <th>NAME</th>
                 <th>PHONE</th>
             </tr>
         </thead>

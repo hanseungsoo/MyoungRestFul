@@ -41,6 +41,11 @@ public class UserDao {
                 "select * from TB_USER where U_SEQ = ?", new UserMapper(), uSeq);
     }
 	
+	public List<UserItem> selectUserByNotUserSeqDao(int uSeq) throws EmptyResultDataAccessException {
+		return jdbcTemplate.query(
+                "select * from TB_USER where U_SEQ != ?", new UserMapper(), uSeq);
+    }
+	
 	/**
 	 * @메소드설명 : 유저 이름으로 유저 정보를 조회 한다.
 	 * @param uName : 유저 이름
@@ -48,7 +53,7 @@ public class UserDao {
 	 */
 	public List<UserItem> selectUserByUnameDao(String uName) {
 		return jdbcTemplate.query(
-                "select * from TB_USER where NAME = ?", new Object[] {uName}, new UserMapper());
+                "select * from TB_USER where NAME like ?", new Object[] {"%" + uName + "%"}, new UserMapper());
     }
 	
 	public UserItem selectUserByEmailDao(String email) {
