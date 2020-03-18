@@ -2,10 +2,9 @@
  * 
  */
 
+var table;
 $(document).ready(function() {
 	$('a.home').trigger('click');
-	
-	
 });
 
 function doLoginAction(_this) {
@@ -31,11 +30,37 @@ function doLoginAction(_this) {
     });
 }
 
+function getFriendByGroup(_this) {
+	
+	if(table == null) {
+		table = $('#example').DataTable({
+			"columnDefs": [
+			    { "orderable": false, "targets": 0 }
+			  ],
+			"processing": true,
+			'lengthChange': false,
+			"searching": false,
+			"info": false
+			
+		});
+		
+		table
+		.order([1, 'desc'])
+		.draw();
+	} else {
+		$($(_this).attr('aria-controls')).css('display', 'none');
+	}
+}
+
+	
+	
+	
+
 function getLoginPage(_this) {
 	if($.cookie('token') == null && $('a.logIn').text() == 'LogIn') {
 		$.ajax({
 	        url : './page/signIn.html',
-	        crossOrigin: null,
+	        crossOrigin: true,
 	        success : function(result) {
 	            $('main').html(result);
 	            setMenuActive(_this);
@@ -51,7 +76,18 @@ function getLoginPage(_this) {
 function getHomePage(_this) {
 	$.ajax({
         url : './page/main.html',
-        crossOrigin: null,
+        crossOrigin: true,
+        success : function(result) {
+            $('main').html(result);
+            setMenuActive(_this);
+        }
+    });
+};
+
+function getBookPage(_this) {
+	$.ajax({
+        url : './page/book.html',
+        crossOrigin: true,
         success : function(result) {
             $('main').html(result);
             setMenuActive(_this);
@@ -62,7 +98,7 @@ function getHomePage(_this) {
 function getSignUp(_this) {
 	$.ajax({
         url : './page/signUp.html',
-        crossOrigin: null,
+        crossOrigin: true,
         success : function(result) {
             $('main').html(result);
         }

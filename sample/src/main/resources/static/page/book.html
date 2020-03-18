@@ -1,8 +1,13 @@
+<div>
+<div class="label_right">
+	<button class="btn btn-primary" type="submit">+</button>
+</div>
+
 <div id="accordion">
   <div class="card bg-info">
     <div class="card-header text-left" id="headingOne">
       <h5 class="mb-0">
-        <button class="btn text-light" data-toggle="collapse" data-target="#collapseOne" aria-expanded="true" aria-controls="collapseOne" onclick="getFriends()">
+        <button class="btn text-light" data-toggle="collapse" data-target="#collapseOne" aria-expanded="true" aria-controls="collapseOne" onclick="getFriendByGroup(this)">
            	친구
         </button>
       </h5>
@@ -10,8 +15,20 @@
 
     <div id="collapseOne" class="collapse" aria-labelledby="headingOne" data-parent="#accordion">
       <div class="card-body">
-        <table class="table" data-paging="true"></table>
+        <table id="example" class="table table-dark table-striped table-bordered" style="width:100%">
+        	<thead>
+            <tr>
+            	<th></th>
+                <th>Name</th>
+                <th>EMAIL</th>
+                <th>PHONE</th>
+            </tr>
+        </thead>
+        </table>
       </div>
     </div>
   </div>
+</div>
+
+
 </div>
