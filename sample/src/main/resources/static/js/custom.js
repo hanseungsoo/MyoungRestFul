@@ -1,8 +1,4 @@
-/**
- * 
- */
 
-var table;
 $(document).ready(function() {
 	$('a.home').trigger('click');
 });
@@ -32,29 +28,33 @@ function doLoginAction(_this) {
 
 function getFriendByGroup(_this) {
 	
-	if(table == null) {
-		table = $('#example').DataTable({
-			"columnDefs": [
-			    { "orderable": false, "targets": 0 }
+	if($(_this).attr('class').indexOf('tableDraw') == -1) {
+		var table = $('#dataTableAll').DataTable({
+			'columnDefs': [
+			    { 'orderable': false, 'targets': 0 }
 			  ],
-			"processing": true,
+			'processing': true,
 			'lengthChange': false,
-			"searching": false,
-			"info": false
-			
+			'searching': false,
+			'info': false,
+			ajax: {
+				url: './json/rows.json',
+				dataSrc: '',
+				columns: [
+			        { data: 'name' },
+			        { data: 'email' },
+			        { data: 'phone' }
+			    ]
+			}
 		});
-		
 		table
 		.order([1, 'desc'])
 		.draw();
-	} else {
-		$($(_this).attr('aria-controls')).css('display', 'none');
+		
+		$(_this).addClass('tableDraw');
 	}
 }
 
-	
-	
-	
 
 function getLoginPage(_this) {
 	if($.cookie('token') == null && $('a.logIn').text() == 'LogIn') {
@@ -133,7 +133,7 @@ function btnRegister() {
 		    			$('div.' + errorFields[i].field + '.invalid-feedback').text(errorFields[i].reason)
 		    		}
 		    	}
-		    },
+		    }
 		});
 	} else {
 		alert('패스워드를 확인하세요.');
@@ -172,13 +172,56 @@ function passwordKeyChecker(){
 	}
 }
 
-function addGroup() {
-	$.ajax({
-        url : './page/accordion.html',
-        crossOrigin: true,
-        success : function(result) {
-        	var tmp = result.replace(/{SEQ}/gi, 22);
-        	$('#accordionMain').append(tmp);
-        }
-    });
+function addGroup(groupName) {
+	$.ajax ({
+	    url: 'http://127.0.0.1:8080/group/' + groupName,
+	    type: 'POST',
+	    dataType: 'json',
+	    contentType: 'application/json; charset=utf-8',
+	    success: function(msg){
+	    	if(msg.status == 'SUCCESS') {
+	    		if(msg.data == 1) {
+	    			$.ajax({
+	    		        url : './page/accordion.html',
+	    		        crossOrigin: true,
+	    		        success : function(msg) {
+	    		        	console.log(msg);
+	    		        	var tmpSeq = result.replace(/{SEQ}/gi, msg.data.gSeq);
+	    		        	var tmpName = tmp.replace(/{NAME}/gi, msg.data.name);
+	    		        	$('#accordionMain').append(tmp);
+	    		        	alert('그룹 추가에 성공하였습니다.');
+	    		        	$('#bookModalCenter').modal('hide');
+	    		        }
+	    		    });
+	    		} else {
+	    			alert('그룹 추가에 실패하였습니다.');
+	    		}
+	    	} else {
+	    		alert('그룹 추가에 실패하였습니다.');
+	    	}
+	    }
+	});
+}
+
+function clickModal(_this) {
+	$('#bookModalCenter').on('show.bs.modal', function (event) {
+		  var button = $(event.relatedTarget) // Button that triggered the modal
+		  var flag = button.data('whatever') // Extract info from data-* attributes
+		  // If necessary, you could initiate an AJAX request here (and then do the updating in a callback).
+		  // Update the modal's content. We'll use jQuery here, but you could use a data binding library or other methods instead.
+		  var modal = $(this);
+		  if(flag == 'groupAdd') {
+			  modal.find('.modal-title').text('그룹추가');
+			  modal.find('label.col-form-label').text('그룹명');
+			  modal.find('button.btn.btn-primary').text('추가하기');
+			  modal.find('button.btn.btn-primary').on('click', function() {
+				  var groupName = modal.find('#book-name').val();
+				  if(groupName == '' || groupName == undefined) {
+					  alert('그룹명을 지정해 주세요.');
+				  } else {
+					  addGroup(groupName);
+				  }
+			  })
+		  }
+	})
 }
