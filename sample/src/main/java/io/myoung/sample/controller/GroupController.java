@@ -47,11 +47,11 @@ public class GroupController {
 	 * @return : 정상 등록이면 1, 오류면 오류 응답 발송
 	 */
 	@RequestMapping(method=RequestMethod.POST, value="/{NAME}")
-	public HttpSuccessResponse<Integer> insertGroupbyUserSeq(
+	public HttpSuccessResponse<GroupItem> insertGroupbyUserSeq(
 			@RequestHeader(value="X-AUTH-TOKEN") String token,
 			@PathVariable(value="NAME") String name) {
 		UserItem item = jwtTokenProvider.getUserItem(token);
-		return HttpSuccessResponse.<Integer>builder().status(StatusEnum.SUCCESS).data(groupService.insertGroupByUserSeqService(item.getUSeq(), name)).build();
+		return HttpSuccessResponse.<GroupItem>builder().status(StatusEnum.SUCCESS).data(groupService.insertGroupByUserSeqService(item.getUSeq(), name)).build();
 	}
 	
 	@RequestMapping(method=RequestMethod.DELETE, value="/{gSeq}")

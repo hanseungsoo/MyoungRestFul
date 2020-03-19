@@ -1,14 +1,27 @@
-[
-	{"id":"1","1":"aaa","2":"bbb","3":"ccc","4":"ddd"},
-	{"id":"1","1":"aaa","2":"bbb","3":"ccc","4":"ddd"},
-	{"id":"1","1":"aaa","2":"bbb","3":"ccc","4":"ddd"},
-	{"id":"1","1":"aaa","2":"bbb","3":"ccc","4":"ddd"},
-	{"id":"1","1":"aaa","2":"bbb","3":"ccc","4":"ddd"},
-	{"id":"1","1":"aaa","2":"bbb","3":"ccc","4":"ddd"},
-	{"id":"1","1":"aaa","2":"bbb","3":"ccc","4":"ddd"},
-	{"id":"1","1":"aaa","2":"bbb","3":"ccc","4":"ddd"},
-	{"id":"1","1":"aaa","2":"bbb","3":"ccc","4":"ddd"},
-	{"id":"1","1":"aaa","2":"bbb","3":"ccc","4":"ddd"},
-	{"id":"1","1":"aaa","2":"bbb","3":"ccc","4":"ddd"},
-	{"id":"1","1":"aaa","2":"bbb","3":"ccc","4":"ddd"}
-]
+{
+	"draw": 1,
+    "recordsTotal": 20,
+    "recordsFiltered": 20,
+	"data": [
+		{"NAME":"1","EMAIL":"aaa","PHONE":"bbb"},
+		{"NAME":"1","EMAIL":"aaa","PHONE":"bbb"},
+		{"NAME":"1","EMAIL":"aaa","PHONE":"bbb"},
+		{"NAME":"1","EMAIL":"aaa","PHONE":"bbb"},
+		{"NAME":"1","EMAIL":"aaa","PHONE":"bbb"},
+		{"NAME":"1","EMAIL":"aaa","PHONE":"bbb"},
+		{"NAME":"1","EMAIL":"aaa","PHONE":"bbb"},
+		{"NAME":"1","EMAIL":"aaa","PHONE":"bbb"},
+		{"NAME":"1","EMAIL":"aaa","PHONE":"bbb"},
+		{"NAME":"1","EMAIL":"aaa","PHONE":"bbb"},
+		{"NAME":"1","EMAIL":"aaa","PHONE":"bbb"},
+		{"NAME":"1","EMAIL":"aaa","PHONE":"bbb"},
+		{"NAME":"1","EMAIL":"aaa","PHONE":"bbb"},
+		{"NAME":"1","EMAIL":"aaa","PHONE":"bbb"},
+		{"NAME":"1","EMAIL":"aaa","PHONE":"bbb"},
+		{"NAME":"1","EMAIL":"aaa","PHONE":"bbb"},
+		{"NAME":"1","EMAIL":"aaa","PHONE":"bbb"},
+		{"NAME":"1","EMAIL":"aaa","PHONE":"bbb"},
+		{"NAME":"1","EMAIL":"aaa","PHONE":"bbb"},
+		{"NAME":"1","EMAIL":"aaa","PHONE":"bbb"}
+	] 
+}

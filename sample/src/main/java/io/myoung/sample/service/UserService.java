@@ -59,6 +59,11 @@ public class UserService {
 		return userDao.selectUserByUserSeqDao(uSeq);
 	}
 	
+	public List<UserItem> selectUserByNotUserSeqService(int uSeq) {
+		
+		return userDao.selectUserByNotUserSeqDao(uSeq);
+	}
+	
 	/**
 	 * @메소드설명 : 유저 이름으로 유저 정보를 조회 한다.
 	 * @param uName : 유저 이름

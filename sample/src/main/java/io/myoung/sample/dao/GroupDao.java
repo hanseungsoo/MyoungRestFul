@@ -63,6 +63,12 @@ public class GroupDao {
 		return jdbcTemplate.update("delete from TB_GROUP where G_SEQ = ?",gSeq);
 	}
 	
+	public Integer deleteFriendtoGroupByGSeqDao(int gSeq) {
+		return jdbcTemplate.update(
+				"delete from TB_GROUP_TO_FRIEND" + 
+				"where int gSeq=?" ,gSeq);
+	}
+	
 //	public GroupItem selectGroupByUserNameDao(String name) throws EmptyResultDataAccessException {
 //		return jdbcTemplate.queryForObject(
 //                "select count(1) as cnt from from TB_USER a " +

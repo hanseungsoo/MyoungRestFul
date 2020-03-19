@@ -1,12 +1,16 @@
 package io.myoung.sample.dao;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.jdbc.core.JdbcTemplate;
+import org.springframework.jdbc.core.simple.SimpleJdbcCall;
 import org.springframework.stereotype.Repository;
 
+import io.myoung.sample.mapper.DuplGroupMapper;
 import io.myoung.sample.mapper.FriendUserMapper;
+import io.myoung.sample.model.DuplGroupItem;
 import io.myoung.sample.model.UserItem;
 
 
@@ -23,8 +27,8 @@ public class FriendDao {
 	public List<UserItem> selectAllFriendDao(int uSeq) {
 		
 		return jdbcTemplate.query(
-				"select * from TB_FRIEND " +
-		        "where U_SEQ = ?",new Object[] {uSeq},new FriendUserMapper());
+				"select * from TB_USER where U_SEQ in (select F_SEQ from TB_FRIEND where U_SEQ=?)"
+				,new Object[] {uSeq},new FriendUserMapper());
 	}
 
 	/**
@@ -38,6 +42,21 @@ public class FriendDao {
                 "select b.* from TB_GROUP_TO_FRIEND a " +
                 "left join TB_USER b on (a.G_SEQ = ? and a.F_SEQ = b.U_SEQ)", new Object[] {gSeq}, new FriendUserMapper());
     }
+	
+	public List<DuplGroupItem> selectDuplByUseqDao(int uSeq, String NameOrPhone) {
+		StringBuffer sb = new StringBuffer();
+		sb.append("select ").append(NameOrPhone).append(", COUNT(*) as COUNT from (select ").append(NameOrPhone).append(" from TB_USER where U_SEQ in (select F_SEQ from TB_FRIEND where U_SEQ=?)) ");
+		sb.append("group by ").append(NameOrPhone).append(" having COUNT(*) > 1 order by ").append(NameOrPhone);
+		String st = new String(sb);
+		return jdbcTemplate.query(st, new Object[] {uSeq}, new DuplGroupMapper());
+    }
+	
+//	public List<DuplGroupItem> selectDuplPhoneByUseqDao(int uSeq) {
+//		return jdbcTemplate.query(
+//				"select PHONE , COUNT(*) as COUNT "
+//				+ "from (select PHONE from TB_USER where U_SEQ in (select F_SEQ from TB_FRIEND where U_SEQ=?)) "
+//				+ "group by PHONE having COUNT(*) > 1 order by PHONE", new Object[] {uSeq}, new DuplGroupMapper());
+//    }
 	
 	/**
 	 * @메소드설명 : 그룹과 내 주소록을 연결하는 TB_GROUP_TO_FRIEND 테이블에 데이터를 입력 한다.
@@ -65,17 +84,30 @@ public class FriendDao {
                 "values(?, ?)", uSeq, fSeq);
     }
 	
-	public Integer deleteFriendByFriendSeqDao(int fSeq,int uSeq) {
-		return jdbcTemplate.update(
-				"delete from TB_FRIEND" + 
-				"where U_SEQ=? and F_SEQ",uSeq,fSeq);
+	
+	public int[] deleteFriendByFriendSeqDao(Integer fSeq[],int uSeq) {
+		List<Object[]> batch = new ArrayList<Object[]>();
+		for(int i=0;i<fSeq.length;i++) {
+			Object[] values = new Object[] {
+				uSeq,fSeq[i]};
+			batch.add(values);
+		}
+		return jdbcTemplate.batchUpdate(
+				"delete from TB_FRIEND " + 
+				"where U_SEQ=? and F_SEQ=?",batch);
 	}
 	
-	public Integer deleteFriendtoGroupByFriendSeqDao(int fSeq,int uSeq) {
-		return jdbcTemplate.update(
-				"delete from TB_GROUP_TO_FRIEND" + 
-				"where F_SEQ=?" + 
-				"G_SEQ=(select G_SEQ from TB_GROUP where U_SEQ=?)",fSeq,uSeq);
+	public int[] deleteFriendtoGroupByFriendSeqDao(Integer[] fSeq,int uSeq) {
+		List<Object[]> batch = new ArrayList<Object[]>();
+		for(int i=0;i<fSeq.length;i++) {
+			Object[] values = new Object[] {
+				fSeq[i],uSeq};
+			batch.add(values);
+		}
+		return jdbcTemplate.batchUpdate("delete from TB_GROUP_TO_FRIEND " + 
+				"where F_SEQ=? and " + 
+				"G_SEQ=(select G_SEQ from TB_GROUP where U_SEQ=?)", batch);
 	}
 	
+
 }

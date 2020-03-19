@@ -1,15 +1,18 @@
 package io.myoung.sample.controller;
 
 import java.util.List;
+import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestHeader;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 
 import io.myoung.sample.controller.response.HttpSuccessResponse;
+import io.myoung.sample.model.DuplGroupItem;
 import io.myoung.sample.model.UserItem;
 import io.myoung.sample.security.JwtTokenProvider;
 import io.myoung.sample.service.FriendService;
@@ -49,6 +52,19 @@ public class FriendController {
 		return HttpSuccessResponse.<List<UserItem>>builder().status(StatusEnum.SUCCESS).data(friendService.selectFriendByGroupSeqService(gSeq)).build();
 	}
 	
+	@RequestMapping(method=RequestMethod.GET, value="/duplname")
+	public HttpSuccessResponse<List<DuplGroupItem>> getDuplNameByUSeq(@RequestHeader(value="X-AUTH-TOKEN") String token) {
+		UserItem item = jwtTokenProvider.getUserItem(token);
+		return HttpSuccessResponse.<List<DuplGroupItem>>builder().status(StatusEnum.SUCCESS).data(friendService.selectDuplByUseq(item.getUSeq(), "NAME")).build();
+	}
+	
+	@RequestMapping(method=RequestMethod.GET, value="/duplphone")
+	public HttpSuccessResponse<List<DuplGroupItem>> getDuplPhoneByUSeq(@RequestHeader(value="X-AUTH-TOKEN") String token) {
+		UserItem item = jwtTokenProvider.getUserItem(token);
+		return HttpSuccessResponse.<List<DuplGroupItem>>builder().status(StatusEnum.SUCCESS).data(friendService.selectDuplByUseq(item.getUSeq(), "PHONE")).build();
+	}
+
+	
 	/**
 	 * @메소드설명 : 특정 그룹에 유저를 등록한다. 
 	 * 			 단, 그룹이 '전체'그룹일시 주소록에도 등록한다. 
@@ -73,12 +89,19 @@ public class FriendController {
 		return HttpSuccessResponse.<Integer>builder().status(StatusEnum.SUCCESS).data(friendService.insertFriendByFriendSeqService(fSeq,item.getUSeq())).build();
 	}
 	
-	@RequestMapping(method = RequestMethod.DELETE, value = "/{F_SEQ}")
-	public HttpSuccessResponse<Integer> deleteFriendByFriendSeq(
+//	@RequestMapping(method = RequestMethod.DELETE, value = "/{F_SEQ}")
+//	public HttpSuccessResponse<Integer> deleteFriendByFriendSeq(
+//			@RequestHeader(value="X-AUTH-TOKEN") String token,
+//			@PathVariable(value="F_SEQ") int fSeq){
+//		UserItem item = jwtTokenProvider.getUserItem(token);
+//		return HttpSuccessResponse.<Integer>builder().status(StatusEnum.SUCCESS).data(friendService.deleteFriendByFriendSeqService(fSeq, item.getUSeq())).build();
+//	}
+//	
+	@RequestMapping(method = RequestMethod.DELETE)
+	public HttpSuccessResponse<Integer> deleteFriendsByFSeq(
 			@RequestHeader(value="X-AUTH-TOKEN") String token,
-			@PathVariable(value="F_SEQ") int fSeq){
+			@RequestBody Integer[] fSeq){
 		UserItem item = jwtTokenProvider.getUserItem(token);
 		return HttpSuccessResponse.<Integer>builder().status(StatusEnum.SUCCESS).data(friendService.deleteFriendByFriendSeqService(fSeq, item.getUSeq())).build();
-		
 	}
 }
