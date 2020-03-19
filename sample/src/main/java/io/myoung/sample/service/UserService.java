@@ -7,6 +7,7 @@ import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import io.myoung.sample.dao.GroupDao;
 import io.myoung.sample.dao.HistoryDao;
 import io.myoung.sample.dao.UserDao;
 import io.myoung.sample.exception.EncryptException;
@@ -28,6 +29,8 @@ public class UserService {
 	private HistoryDao historyDao;
 	@Autowired
 	private AesUtil aesUtil;
+	@Autowired
+	private GroupDao groupdao;
 
 	/**
 	 * @메소드설명 : 사용자 정보를 받아서 회원 가입 처리를 한다.
@@ -77,7 +80,105 @@ public class UserService {
 	}
 	
 	public List<HistoryItem> selectHistoryByUseqService(int uSeq){
-		return userDao.selectHistoryByUseqDao(uSeq);
+		List<HistoryItem> historyList = userDao.selectHistoryByUseqDao(uSeq);
+
+		String fname;
+
+		String gname;
+
+		for(int i=0;i<historyList.size();i++) {
+
+			HistoryItem history = historyList.get(i);
+
+			switch (history.getFlag()) {
+
+			case "UC":
+
+				history.setFlag("유저가 생성되었습니다.");
+
+				break;
+
+			case "UU":
+
+				history.setFlag("유저 정보가 변경되었습니다.");
+
+				break;
+
+			case "UD":
+
+				history.setFlag("유저가 삭제되었습니다.");
+
+				break;
+
+			case "FC":
+
+				fname=userDao.selectUserByUserSeqDao(history.getFSeq()).getName();
+
+				history.setFlag("친구 ["+fname+"] (이)가 추가되었습니다.");
+
+				break;
+
+			case "FD":
+
+				fname=userDao.selectUserByUserSeqDao(history.getFSeq()).getName();
+
+				history.setFlag("친구 ["+fname+"] (이)가 삭제되었습니다.");
+
+				break;
+
+			case "GC":
+
+				gname=groupdao.selectGroupByGroupSeqDao(history.getGSeq()).getName();
+
+				history.setFlag("그룹 ["+gname+"] (이)가 추가되었습니다.");
+
+				break;
+
+			case "GU":
+
+				gname=groupdao.selectGroupByGroupSeqDao(history.getGSeq()).getName();
+
+				history.setFlag("그룹 ["+gname+"] (이)가 변경되었습니다.");
+
+				break;
+
+			case "GD":
+
+				gname=groupdao.selectGroupByGroupSeqDao(history.getGSeq()).getName();
+
+				history.setFlag("그룹 ["+gname+"] (이)가 삭제되었습니다.");
+
+				break;
+
+			case "GFC":
+
+				fname=userDao.selectUserByUserSeqDao(history.getFSeq()).getName();
+
+				gname=groupdao.selectGroupByGroupSeqDao(history.getGSeq()).getName();
+
+				history.setFlag("그룹 ["+gname+"]에서 친구 ["+fname+"](이)가 추가되었습니다.");
+
+				break;
+
+			case "GFD":
+
+				fname=userDao.selectUserByUserSeqDao(history.getFSeq()).getName();
+
+				gname= groupdao.selectGroupByGroupSeqDao(history.getGSeq()).getName();
+
+				history.setFlag("그룹 ["+gname+"]에서 친구 ["+fname+"](이)가 삭제되었습니다.");
+
+				break;
+
+			default:
+
+				break;
+
+			}
+
+		}
+
+		return historyList;
 	}
 	
 	public List<UserItem> selectUserNotFriendByUserNameService(int uSeq, String name) {

@@ -118,7 +118,7 @@ public class FriendDao {
 		}
 		return jdbcTemplate.batchUpdate("delete from TB_GROUP_TO_FRIEND " + 
 				"where F_SEQ=? and " + 
-				"G_SEQ=(select G_SEQ from TB_GROUP where U_SEQ=?)", batch);
+				"G_SEQ in (select G_SEQ from TB_GROUP where U_SEQ=?)", batch);
 	}
 	
 

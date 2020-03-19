@@ -88,3 +88,81 @@ function passwordKeyChecker(){
 		} 
 	}
 }
+
+function initHistoryPannel() {
+	if($('#historyTable').attr('class').indexOf('tableDraw') == -1) {
+		var table = $('#historyTable').DataTable({
+			'columnDefs': [
+			
+		            {
+		             "targets": 0,
+		             "data": "flag",
+		             "orderable" : true,
+		            "searchable": true
+		            },
+		             {
+		             "targets": 1,
+		             "data": "actionTime",
+		             "orderable" : true,
+		            "searchable": true
+		             },
+		            {
+		            "targets": 2,
+		            "data": "fseq",
+		            "orderable" : true,
+		            "defaultContent": '',
+		            "searchable": true
+		            },
+		            {
+			            "targets": 3,
+			            "data": "gseq",
+			            "orderable" : true,
+			            "defaultContent": '',
+			            "searchable": false
+			            },
+		            {
+			            "targets": 4,
+			            "data": "hseq",
+			            "orderable" : true,
+			            "defaultContent": '',
+			            "searchable": false
+			            }
+			  ],
+			'processing': true,
+			'lengthChange': false,
+			'searching': false,
+			'info': false,
+			'ajax': {
+				url: 'http://127.0.0.1:8080/user/history',
+				type: 'GET',
+				beforeSend : function(xhr){
+		            xhr.setRequestHeader('X-AUTH-TOKEN', $.cookie('token'));
+		        }
+			},
+			'createdRow': function(row, data, dataIndex) {
+				$(row).addClass('bg-info');
+				$(row).children('td:last-child').css('display', 'none');
+			}
+		});
+		
+		table
+		.order([1, 'desc'])
+		.draw();
+		$('#historyTable').addClass('tableDraw');
+		
+	} else {
+		$.ajax({
+	        url : 'http://127.0.0.1:8080/user/history',
+	        crossOrigin: true,
+	        type: 'GET',
+	        beforeSend : function(xhr){
+	            xhr.setRequestHeader('X-AUTH-TOKEN', $.cookie('token'));
+	        },
+	        success : function(result) {
+	        	$('#historyTable').DataTable().clear();
+	        	$('#historyTable').DataTable().ajax.url(urls).load();
+	        	
+	        }
+	    });
+	}
+}

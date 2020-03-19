@@ -30,6 +30,19 @@ function getBookPage(_this) {
     });
 };
 
+
+function getHistoryPage(_this) {
+	$.ajax({
+        url : './page/history.html',
+        crossOrigin: true,
+        success : function(result) {
+            $('main').html(result);
+            setMenuActive(_this);
+            initHistoryPannel();
+        }
+    });
+};
+
 function getSignUp(_this) {
 	$.ajax({
         url : './page/signUp.html',
