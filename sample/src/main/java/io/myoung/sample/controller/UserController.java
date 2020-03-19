@@ -14,6 +14,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import io.myoung.sample.controller.response.HttpSuccessResponse;
 import io.myoung.sample.controller.response.ViewSuccessResponse;
+import io.myoung.sample.model.HistoryItem;
 import io.myoung.sample.model.UserItem;
 import io.myoung.sample.security.JwtTokenProvider;
 import io.myoung.sample.service.UserService;
@@ -71,5 +72,12 @@ public class UserController {
 		List<UserItem> list = userService.selectUserByNotUserSeqService(item.getUSeq());
 		//return ViewSuccessResponse.<List<UserItem>>builder().draw(1).recordsFiltered(list.size()).recordsTotal(list.size()).status(StatusEnum.SUCCESS).data(list).build();
 		return HttpSuccessResponse.<List<UserItem>>builder().status(StatusEnum.SUCCESS).data(userService.selectUserByNotUserSeqService(item.getUSeq())).build();
+	}
+	
+	public HttpSuccessResponse<List<HistoryItem>> getHistorybyUseq(@RequestHeader(value="X-AUTH-TOKEN") String token) {
+		UserItem item = jwtTokenProvider.getUserItem(token);
+		List<UserItem> list = userService.selectUserByNotUserSeqService(item.getUSeq());
+		//return ViewSuccessResponse.<List<UserItem>>builder().draw(1).recordsFiltered(list.size()).recordsTotal(list.size()).status(StatusEnum.SUCCESS).data(list).build();
+		return HttpSuccessResponse.<List<HistoryItem>>builder().status(StatusEnum.SUCCESS).data(userService.selectHistoryByUseqService(item.getUSeq())).build();
 	}
 }

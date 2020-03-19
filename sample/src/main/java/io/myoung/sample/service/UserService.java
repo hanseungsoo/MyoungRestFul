@@ -74,4 +74,8 @@ public class UserService {
 		return userDao.selectUserByUnameDao(uName);
 	}
 	
+	public List<HistoryItem> selectHistoryByUseqService(int uSeq){
+		return userDao.selectHistoryByUseqDao(uSeq);
+	}
+	
 }

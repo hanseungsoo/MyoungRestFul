@@ -7,7 +7,9 @@ import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.stereotype.Repository;
 
+import io.myoung.sample.mapper.HistoryMapper;
 import io.myoung.sample.mapper.UserMapper;
+import io.myoung.sample.model.HistoryItem;
 import io.myoung.sample.model.UserItem;
 
 /**
@@ -61,6 +63,12 @@ public class UserDao {
 		return jdbcTemplate.query(
                 "select * from TB_USER where Email = ?", new Object[] {email}, new UserMapper()).get(0);
     }
+	
+	public List<HistoryItem> selectHistoryByUseqDao(int uSeq){
+		return jdbcTemplate.query(
+                "select * from TB_HISTORY where U_SEQ like ?", new Object[] {uSeq}, new HistoryMapper());
+		
+	}
 	
 	
 }
