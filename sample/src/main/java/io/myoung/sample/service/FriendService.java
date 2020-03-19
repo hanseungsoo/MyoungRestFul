@@ -8,10 +8,12 @@ import org.springframework.transaction.annotation.Transactional;
 
 import io.myoung.sample.dao.FriendDao;
 import io.myoung.sample.dao.GroupDao;
+import io.myoung.sample.dao.HistoryDao;
 import io.myoung.sample.exception.FriendException;
 import io.myoung.sample.exception.GroupException;
 import io.myoung.sample.model.DuplGroupItem;
 import io.myoung.sample.model.GroupItem;
+import io.myoung.sample.model.HistoryItem;
 import io.myoung.sample.model.UserItem;
 
 
@@ -25,6 +27,8 @@ public class FriendService {
 	private FriendDao friendDao;
 	@Autowired
 	private GroupDao groupDao;
+	@Autowired
+	private HistoryDao historyDao;
 
 	
 	public List<UserItem> selectAllFriendService(int uSeq) {
@@ -57,7 +61,7 @@ public class FriendService {
 	 */
 	
 	@Transactional
-	public Integer insertFriendByFriendSeqService(int fSeq, int gSeq, int uSeq) {
+	public Integer insertFriendByFSeqService(int fSeq, int gSeq, int uSeq) {
 		GroupItem groupItem = groupDao.selectGroupByGroupSeqDao(gSeq);
 		
 		if(groupItem == null) {
@@ -65,7 +69,8 @@ public class FriendService {
 		}
 		
 		int count;
-		count = friendDao.insertFriendByFriendSeqDao(fSeq, uSeq);
+		Integer[] fSeqs = {fSeq};
+		count = friendDao.insertFriendByFriendSeqDao(fSeqs, uSeq)[0];
 		if(count == 0) {
 			throw new FriendException("주소록에 추가하지 못했습니다.");
 		}
@@ -84,11 +89,20 @@ public class FriendService {
 	 * @param uSeq : 주소록 주인 키
 	 * @return : 등록 결과(0,1)
 	 */
-	public Integer insertFriendByFriendSeqService(int fSeq,int uSeq) {
-		int count;
-		count = friendDao.insertFriendByFriendSeqDao(fSeq, uSeq);
+	@Transactional
+	public Integer insertFriendsByFSeqService(Integer[] fSeq,int uSeq) {
+		int count = 0;
+		int[] returnCnt;
+		returnCnt = friendDao.insertFriendByFriendSeqDao(fSeq, uSeq);
+		for(int i=0;i<returnCnt.length;i++) {
+			count += returnCnt[i];
+		}
 		if(count == 0) {
 			throw new FriendException("주소록에 추가하지 못했습니다.");
+		}
+		for(int i=0;i<returnCnt.length;i++) {
+			if(returnCnt[i] != 0)
+				historyDao.insertHistory(HistoryItem.builder().flag("FC").uSeq(uSeq).fSeq(fSeq[i]).build());
 		}
 		return count;
 	}
@@ -111,6 +125,10 @@ public class FriendService {
 		}
 		if(count == 0) {
 			throw new FriendException("삭제할 친구 정보가 없습니다.");
+		}
+		for(int i=0;i<returnCnt.length;i++) {
+			if(returnCnt[i] != 0)
+				historyDao.insertHistory(HistoryItem.builder().flag("FD").uSeq(uSeq).fSeq(fSeq[i]).build());
 		}
 		return count;
 		

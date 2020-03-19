@@ -77,11 +77,16 @@ public class FriendDao {
 	 * @param uSeq : 사용자 키
 	 * @return Insert 결과 (0,1)
 	 */
-	public Integer insertFriendByFriendSeqDao(int fSeq, int uSeq) {
-		
-		return jdbcTemplate.update(
-                "insert into TB_FRIEND(U_SEQ, F_SEQ)" +
-                "values(?, ?)", uSeq, fSeq);
+	public int[] insertFriendByFriendSeqDao(Integer fSeq[], int uSeq) {
+		List<Object[]> batch = new ArrayList<Object[]>();
+		for(int i=0;i<fSeq.length;i++) {
+			Object[] values = new Object[] {
+				uSeq,fSeq[i]};
+			batch.add(values);
+		}
+		return jdbcTemplate.batchUpdate(
+				"insert into TB_FRIEND(U_SEQ, F_SEQ)" +
+		                "values(?, ?)",batch);
     }
 	
 	

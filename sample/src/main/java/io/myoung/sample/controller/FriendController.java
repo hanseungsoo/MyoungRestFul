@@ -78,15 +78,15 @@ public class FriendController {
 			@PathVariable(value="F_SEQ") int fSeq,
 			@PathVariable(value="G_SEQ") int gSeq) {
 		UserItem item = jwtTokenProvider.getUserItem(token);
-		return HttpSuccessResponse.<Integer>builder().status(StatusEnum.SUCCESS).data(friendService.insertFriendByFriendSeqService(fSeq, gSeq,item.getUSeq())).build();
+		return HttpSuccessResponse.<Integer>builder().status(StatusEnum.SUCCESS).data(friendService.insertFriendByFSeqService(fSeq, gSeq,item.getUSeq())).build();
 	}
 	
-	@RequestMapping(method=RequestMethod.POST, value="/{F_SEQ}")
+	@RequestMapping(method=RequestMethod.POST)
 	public HttpSuccessResponse<Integer> insertFriendByFriendSeq(
 			@RequestHeader(value="X-AUTH-TOKEN") String token,
-			@PathVariable(value="F_SEQ") int fSeq) {
+			@RequestBody Integer[] fSeq) {
 		UserItem item = jwtTokenProvider.getUserItem(token);
-		return HttpSuccessResponse.<Integer>builder().status(StatusEnum.SUCCESS).data(friendService.insertFriendByFriendSeqService(fSeq,item.getUSeq())).build();
+		return HttpSuccessResponse.<Integer>builder().status(StatusEnum.SUCCESS).data(friendService.insertFriendsByFSeqService(fSeq,item.getUSeq())).build();
 	}
 	
 //	@RequestMapping(method = RequestMethod.DELETE, value = "/{F_SEQ}")
