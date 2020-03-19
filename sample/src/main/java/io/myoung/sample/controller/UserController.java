@@ -74,6 +74,7 @@ public class UserController {
 		return HttpSuccessResponse.<List<UserItem>>builder().status(StatusEnum.SUCCESS).data(userService.selectUserByNotUserSeqService(item.getUSeq())).build();
 	}
 	
+	@RequestMapping(method=RequestMethod.GET, value="/history")
 	public HttpSuccessResponse<List<HistoryItem>> getHistorybyUseq(@RequestHeader(value="X-AUTH-TOKEN") String token) {
 		UserItem item = jwtTokenProvider.getUserItem(token);
 		List<UserItem> list = userService.selectUserByNotUserSeqService(item.getUSeq());
