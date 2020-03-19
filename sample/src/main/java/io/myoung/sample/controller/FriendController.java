@@ -52,6 +52,13 @@ public class FriendController {
 		return HttpSuccessResponse.<List<UserItem>>builder().status(StatusEnum.SUCCESS).data(friendService.selectFriendByGroupSeqService(gSeq)).build();
 	}
 	
+	@RequestMapping(method=RequestMethod.GET, value="/name/{U_NAME}")
+	public HttpSuccessResponse<List<UserItem>> getFriendByUserName(@RequestHeader(value="X-AUTH-TOKEN") String token,
+			@PathVariable(value="U_NAME") String uName) {
+		UserItem item = jwtTokenProvider.getUserItem(token);
+		return HttpSuccessResponse.<List<UserItem>>builder().status(StatusEnum.SUCCESS).data(friendService.selectFriendByUserNameService(item.getUSeq(),uName)).build();
+	}
+	
 	@RequestMapping(method=RequestMethod.GET, value="/duplname")
 	public HttpSuccessResponse<List<DuplGroupItem>> getDuplNameByUSeq(@RequestHeader(value="X-AUTH-TOKEN") String token) {
 		UserItem item = jwtTokenProvider.getUserItem(token);
@@ -104,4 +111,15 @@ public class FriendController {
 		UserItem item = jwtTokenProvider.getUserItem(token);
 		return HttpSuccessResponse.<Integer>builder().status(StatusEnum.SUCCESS).data(friendService.deleteFriendByFriendSeqService(fSeq, item.getUSeq())).build();
 	}
+	
+	
+//	@RequestMapping(method=RequestMethod.POST, value="/{G_SEQ}")
+//	public HttpSuccessResponse<Integer> insertFriendToGroupSeq(
+//			@RequestHeader(value="X-AUTH-TOKEN") String token,
+//			@RequestBody Integer[] fSeq,
+//			@PathVariable(value="G_SEQ") int gSeq) {
+//		UserItem item = jwtTokenProvider.getUserItem(token);
+//		return HttpSuccessResponse.<Integer>builder().status(StatusEnum.SUCCESS).data(friendService.insertFriendByFSeqService(fSeq, gSeq,item.getUSeq())).build();
+//	}
+	
 }

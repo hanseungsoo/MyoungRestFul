@@ -43,6 +43,13 @@ public class FriendDao {
                 "left join TB_USER b on (a.G_SEQ = ? and a.F_SEQ = b.U_SEQ)", new Object[] {gSeq}, new FriendUserMapper());
     }
 	
+	public List<UserItem> selectFriendByUserNameDao(int uSeq, String uName) {
+		
+		return jdbcTemplate.query(
+				"select * from TB_USER where NAME like ? AND U_SEQ in (select F_SEQ from TB_FRIEND where U_SEQ = ?)", new Object[] {uName , uSeq}, new FriendUserMapper());
+    }
+	
+	
 	public List<DuplGroupItem> selectDuplByUseqDao(int uSeq, String NameOrPhone) {
 		StringBuffer sb = new StringBuffer();
 		sb.append("select ").append(NameOrPhone).append(", COUNT(*) as COUNT from (select ").append(NameOrPhone).append(" from TB_USER where U_SEQ in (select F_SEQ from TB_FRIEND where U_SEQ=?)) ");

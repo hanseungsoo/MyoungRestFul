@@ -81,4 +81,20 @@ public class UserController {
 		//return ViewSuccessResponse.<List<UserItem>>builder().draw(1).recordsFiltered(list.size()).recordsTotal(list.size()).status(StatusEnum.SUCCESS).data(list).build();
 		return HttpSuccessResponse.<List<HistoryItem>>builder().status(StatusEnum.SUCCESS).data(userService.selectHistoryByUseqService(item.getUSeq())).build();
 	}
+	
+//	@RequestMapping(method=RequestMethod.GET, value="/notfriend")
+//    public HttpSuccessResponse<List<UserItem>> getUserNotFriend(@RequestHeader(value="X-AUTH-TOKEN") String token) {
+//      UserItem item = jwtTokenProvider.getUserItem(token);
+//      return HttpSuccessResponse.<List<UserItem>>builder().status(StatusEnum.SUCCESS).data(userService.selectUserNotFriendsService(item.getUSeq())).build();
+//
+//    }
+	
+	
+	@RequestMapping(method=RequestMethod.GET, value="/notfriend/{U_NAME}")
+    public HttpSuccessResponse<List<UserItem>> getUserNotFriendByUserName(@RequestHeader(value="X-AUTH-TOKEN") String token,
+    		@PathVariable(value="U_NAME") String uName) {
+      UserItem item = jwtTokenProvider.getUserItem(token);
+      return HttpSuccessResponse.<List<UserItem>>builder().status(StatusEnum.SUCCESS).data(userService.selectUserNotFriendByUserNameService(item.getUSeq(), uName)).build();
+
+    }
 }

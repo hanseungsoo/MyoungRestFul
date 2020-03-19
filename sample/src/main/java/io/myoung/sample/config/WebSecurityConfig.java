@@ -40,6 +40,8 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter{
                     .antMatchers("/auth").permitAll() // 가입 및 인증 주소는 누구나 접근가능
                     .antMatchers(HttpMethod.POST, "/user/**").permitAll() // hellowworld로 시작하는 GET요청 리소스는 누구나 접근가능
                     .antMatchers(HttpMethod.GET, "/static/**").permitAll() // hellowworld로 시작하는 GET요청 리소스는 누구나 접근가능
+                    .antMatchers(HttpMethod.GET, "/swagger-ui.html").permitAll() // hellowworld로 시작하는 GET요청 리소스는 누구나 접근가능
+                    .antMatchers(HttpMethod.GET, "/swagger-resources/**").permitAll() // hellowworld로 시작하는 GET요청 리소스는 누구나 접근가능
                     .anyRequest().hasRole("USER") // 그외 나머지 요청은 모두 인증된 회원만 접근 가능
             .and()
                 .addFilterBefore(jwtAuthenticationFilter, UsernamePasswordAuthenticationFilter.class); // jwt token 필터를 id/password 인증 필터 전에 넣는다

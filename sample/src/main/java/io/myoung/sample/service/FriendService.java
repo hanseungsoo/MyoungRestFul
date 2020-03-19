@@ -44,6 +44,10 @@ public class FriendService {
 		return friendDao.selectFriendByGroupSeqDao(gSeq);
 	}
 	
+	public List<UserItem> selectFriendByUserNameService(int uSeq, String uName) {
+		return friendDao.selectFriendByUserNameDao(uSeq, uName);
+	}
+	
 	public List<DuplGroupItem> selectDuplByUseq(int uSeq, String NameOrPhone){
 		return friendDao.selectDuplByUseqDao(uSeq,NameOrPhone);
 	}
@@ -82,6 +86,30 @@ public class FriendService {
 		
 		return count;
 	}
+	
+	
+//	@Transactional
+//	public Integer insertFriendByFSeqService(Integer[] fSeq, int gSeq, int uSeq) {
+//		GroupItem groupItem = groupDao.selectGroupByGroupSeqDao(gSeq);
+//		
+//		if(groupItem == null) {
+//			throw new GroupException("그룹이 존재하지 않습니다.");
+//		}
+//		
+//		int count;
+//		Integer[] fSeqs = {fSeq};
+//		count = friendDao.insertFriendByFriendSeqDao(fSeqs, uSeq)[0];
+//		if(count == 0) {
+//			throw new FriendException("주소록에 추가하지 못했습니다.");
+//		}
+//		
+//		count = friendDao.insertFriendToGroupByFriendSeqDao(fSeq, gSeq);
+//		if(count == 0) {
+//			throw new FriendException("주소록에 추가하지 못했습니다.");
+//		}
+//		
+//		return count;
+//	}
 	
 	/**
 	 * @메소드설명 : 사용자 주소록에 친구를 등록한다

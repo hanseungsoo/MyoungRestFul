@@ -1,6 +1,8 @@
 <div>
 <div class="label_right">
 	<button type="button" class="btn btn-primary" data-toggle="modal" data-target="#bookModalCenter" data-whatever="groupAdd" onclick="clickModal(this)">+</button>
+	<button type="button" class="btn btn-primary" data-toggle="modal" data-target="#dupModalCenter" data-whatever="nameChecker" onclick="dupChecker(this)">이름 중복 검사</button>
+	<button type="button" class="btn btn-primary" data-toggle="modal" data-target="#dupModalCenter" data-whatever="phoneChecker" onclick="dupChecker(this)">핸드폰 중복 검사</button>
 </div>
 
 <div id="accordionMain">
@@ -33,20 +35,20 @@
 </div>
 
 
-<div class="modal fade" id="friendModalCenter" tabindex="-1" role="dialog" aria-labelledby="friendModalLabel" aria-hidden="true">
+<div class="modal fade" id="AllfriendModalCenter" tabindex="-1" role="dialog" aria-labelledby="AllfriendModalLabel" aria-hidden="true">
   <div class="modal-dialog modal-dialog-centered" role="document">
     <div class="modal-content">
       <div class="modal-header">
-        <h5 class="modal-title text-dark" id="friendModalLabel"></h5>
+        <h5 class="modal-title text-dark" id="AllfriendModalLabel"></h5>
         <button type="button" class="close modalClose" data-dismiss="modal" aria-label="Close">
           <span aria-hidden="true">&times;</span>
         </button>
       </div>
       <div class="modal-body">
-        <form id="#">
+        <form id="AllFriendForm">
           <div class="form-group text-left">
             <label for="book-name" class="col-form-label text-dark"></label>
-            <input type="text" class="form-control" id="book-name">
+            <input type="text" class="form-control" id="AllFriendName">
           </div>
           <div class="form-group text-left">
             <table id="addfriendTable" class="table table-dark table-bordered" style="width:100%">
@@ -66,6 +68,77 @@
       <div class="modal-footer">
         <button type="button" class="btn btn-secondary modalClose" data-dismiss="modal">Close</button>
         <button type="button" class="btn btn-primary"></button>
+      </div>
+    </div>
+  </div>
+</div>
+
+
+
+<div class="modal fade" id="friendGroupModalCenter" tabindex="-1" role="dialog" aria-labelledby="friendGroupModalLabel" aria-hidden="true">
+  <div class="modal-dialog modal-dialog-centered" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title text-dark" id="friendGroupModalLabel"></h5>
+        <button type="button" class="close modalClose" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+        <form id="groupFriendForm">
+          <div class="form-group text-left">
+            <label for="book-name" class="col-form-label text-dark"></label>
+            <input type="text" class="form-control" id="groupFriendName">
+          </div>
+          <div class="form-group text-left">
+            <table id="friendGroupTable" class="table table-dark table-bordered" style="width:100%">
+        	<thead>
+            <tr>
+            	<th></th>
+                <th>EMAIL</th>
+                <th>NAME</th>
+                <th>PHONE</th>
+                <th style="display:none">USEQ</th>
+            </tr>
+        </thead>
+        </table>
+          </div>
+        </form>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary modalClose" data-dismiss="modal">Close</button>
+        <button type="button" class="btn btn-primary"></button>
+      </div>
+    </div>
+  </div>
+</div>
+
+
+<div class="modal fade" id="dupModalCenter" tabindex="-1" role="dialog" aria-labelledby="dupModalLabel" aria-hidden="true">
+  <div class="modal-dialog modal-dialog-centered" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title text-dark" id="dupModalLabel"></h5>
+        <button type="button" class="close modalClose" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+        <form id="dupForm">
+          <div class="form-group text-left">
+            <table id="dupCheckTable" class="table table-dark table-bordered" style="width:100%">
+        	<thead>
+            <tr>
+                <th>DUP_ITEM</th>
+                <th>COUNT</th>
+            </tr>
+        </thead>
+        </table>
+          </div>
+        </form>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary modalClose" data-dismiss="modal">Close</button>
       </div>
     </div>
   </div>

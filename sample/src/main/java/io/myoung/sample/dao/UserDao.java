@@ -69,6 +69,9 @@ public class UserDao {
                 "select * from TB_HISTORY where U_SEQ like ?", new Object[] {uSeq}, new HistoryMapper());
 		
 	}
-	
+	public List<UserItem> selectUserNotFriendByUserNameDao(int uSeq, String name) throws EmptyResultDataAccessException {
+		  return jdbcTemplate.query(
+		            "select * from TB_USER where U_SEQ != ? AND NAME like ? AND U_SEQ not in (select F_SEQ from TB_FRIEND where U_SEQ=?)", new Object[] {uSeq, "%" + name + "%", uSeq}, new UserMapper());	
+		}
 	
 }
