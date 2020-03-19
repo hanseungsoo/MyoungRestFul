@@ -50,16 +50,63 @@ function doLoginAction(_this) {
 }
 
 
+function addFriend(_this) {
+	var addItems = [];
+	
+	var trList = $('#addfriendTable tbody').children();
+	
+	for(var i=0; i < trList.length; i++) {
+		var item = trList[i];
+		flag = $(item).children('td.select-checkbox').children('input').is(':checked')
+		
+		
+		if(flag){
+			tdList = $(item).children();
+			var person = {};
+			for(var j=0; j < tdList.length; j++) {
+				var tdItem = tdList[j];
+				
+				if($(tdItem).attr('class') != 'select-checkbox') {
+					if(j == 4) {
+						addItems.push($(tdItem).text() * 1);
+					}
+				}
+				
+			}
+			
+		}
+	}
+	
+	if(addItems.length > 0) {
+		$.ajax({
+			url: 'http://127.0.0.1:8080/friend',
+		    type: 'POST',
+		    data: JSON.stringify(addItems),
+		    dataType: 'json',
+		    contentType: 'application/json; charset=utf-8',
+		    beforeSend : function(xhr){
+	            xhr.setRequestHeader('X-AUTH-TOKEN', $.cookie('token'));
+	        },
+	        success : function(msg) {
+	        	console.log(msg)
+	        	console.log($('#headingAll h5 button'))
+	        	getFriendByGroup($('#headingAll h5 button'), 'dataTableAll');
+	        }
+	    });
+	}
+	console.log(addItems)
+}
+
 function getFriendByGroup(_this, dataTableId, args) {
 	if(dataTableId == 'dataTableAll') {
-		urls = 'http://127.0.0.1:8080/user';
+		urls = 'http://127.0.0.1:8080/friend/';
 		types = 'GET'
 	} else if(dataTableId == 'addfriendTable') {
 		urls = 'http://127.0.0.1:8080/user/info/' + args.name;
 		types = 'GET'
 	}
 	
-	if($(_this).attr('class').indexOf('tableDraw') == -1) {		
+	if($(_this).attr('class').indexOf('tableDraw') == -1) {
 		
 		var table = $('#' + dataTableId).DataTable({
 			'columnDefs': [
@@ -68,32 +115,33 @@ function getFriendByGroup(_this, dataTableId, args) {
 		            "data": null,          // This does the trick... Adding data ...
 //		            "visible": true,      // And making this columns invisible ...
 		            'render': function (data, type, full, meta) {
-                        return '<input type="checkbox" name="rowcheck" value="' + $('<div/>').text(data).html() + '">';
-                    }
+                        			return '<input type="checkbox" name="rowcheck"  value="' + $('<div/>').text(data).html() + '">';
+                    			}
 		            },
 		            {
-			             "targets": 1,        // By doing the trick above ...
-			             "data": "useq",        // this column becomes the first visible one ... (and no)
-			            "visible": false
-			         },
-		            {
-		             "targets": 2,        // By doing the trick above ...
+		             "targets": 1,        // By doing the trick above ...
 		             "data": "email",        // this column becomes the first visible one ... (and no)
 		             "orderable" : true,
 		            "searchable": true,
 		            },
 		             {
-		             "targets": 3,
+		             "targets": 2,
 		             "data": "name",
 		             "orderable" : true,
 		            "searchable": true,
 		             },
 		            {
-		            "targets": 4,
+		            "targets": 3,
 		            "data": "phone",
 		            "orderable" : true,
 		            "searchable": true,
-		            }
+		            },
+		            {
+			            "targets": 4,
+			            "data": "useq",
+			            "orderable" : true,
+			            "searchable": false
+			            }
 			  ],
 			'processing': true,
 			'lengthChange': false,
@@ -109,6 +157,7 @@ function getFriendByGroup(_this, dataTableId, args) {
 			'createdRow': function(row, data, dataIndex) {
 				$(row).addClass('bg-dark');
 				$(row).children('td:first-child').addClass('select-checkbox');
+				$(row).children('td:last-child').css('display', 'none');
 			}
 		});
 		
@@ -118,9 +167,20 @@ function getFriendByGroup(_this, dataTableId, args) {
 		$(_this).addClass('tableDraw');
 	} else {
 		if(dataTableId == 'dataTableAll') {
-			
+			$.ajax({
+		        url : urls,
+		        crossOrigin: true,
+		        type: types,
+		        beforeSend : function(xhr){
+		            xhr.setRequestHeader('X-AUTH-TOKEN', $.cookie('token'));
+		        },
+		        success : function(result) {
+		        	$('#dataTableAll').DataTable().clear();
+		        	$('#dataTableAll').DataTable().ajax.url(urls).load();
+		        	
+		        }
+		    });
 		} else if(dataTableId == 'addfriendTable') {
-			
 			$.ajax({
 		        url : urls,
 		        crossOrigin: true,
@@ -166,13 +226,13 @@ function getBookPage(_this) {
         success : function(result) {
             $('main').html(result);
             setMenuActive(_this);
-            addGroupAll('All', '전체', '친구 추가', '친구 삭제', 'bg-info','clickFriendModal(this)');
+            addGroupAll('All', '전체', '친구 추가', '친구 삭제', 'bg-info','clickFriendModal(this)', 'deleteFriends(this)');
             selectGroup();
         }
     });
 };
 
-function addGroupAll(seq, name, svc1, svc2, bgcolor, handler) {
+function addGroupAll(seq, name, svc1, svc2, bgcolor, handler1, handler2) {
 	$.ajax({
         url : './page/accordion.html',
         crossOrigin: true,
@@ -181,8 +241,9 @@ function addGroupAll(seq, name, svc1, svc2, bgcolor, handler) {
         	var tmpName = tmpSeq.replace(/{NAME}/gi, name);
         	var tmpSvc1 = tmpName.replace(/{SVC_1}/gi, svc1);
         	var tmpSvc2 = tmpSvc1.replace(/{SVC_2}/gi, svc2);
-        	var tmphandler1 = tmpSvc2.replace(/{HANDLER_1}/gi, handler);
-        	var tmp = tmphandler1.replace(/{BG_COLOR}/gi, bgcolor);
+        	var tmphandler1 = tmpSvc2.replace(/{HANDLER_1}/gi, handler1);
+        	var tmphandler2 = tmphandler1.replace(/{HANDLER_2}/gi, handler2);
+        	var tmp = tmphandler2.replace(/{BG_COLOR}/gi, bgcolor);
         	
         	$('#accordionMain').append(tmp);
         }
@@ -300,13 +361,16 @@ function addGroup(groupName) {
     		        url : './page/accordion.html',
     		        crossOrigin: true,
     		        success : function(result) {
-    		        	var tmpSeq = result.replace(/{SEQ}/gi, msg.data.gseq);
-    		        	var tmpName = tmpSeq.replace(/{NAME}/gi, msg.data.name);
-    		        	var tmpSvc1 = tmpName.replace(/{SVC_1}/gi, '등록');
-    		        	var tmpSvc2 = tmpSvc1.replace(/{SVC_2}/gi, '제거');
-    		        	var tmp = tmpSvc2.replace(/{BG_COLOR}/gi, 'bg-warning');
+    		        	addGroupAll(msg.data.gseq, msg.data.name, '등록', '제거', 'bg-warning', '', '');
     		        	
-    		        	$('#accordionMain').append(tmp);
+    		        	
+//    		        	var tmpSeq = result.replace(/{SEQ}/gi, msg.data.gseq);
+//    		        	var tmpName = tmpSeq.replace(/{NAME}/gi, msg.data.name);
+//    		        	var tmpSvc1 = tmpName.replace(/{SVC_1}/gi, '등록');
+//    		        	var tmpSvc2 = tmpSvc1.replace(/{SVC_2}/gi, '제거');
+//    		        	var tmp = tmpSvc2.replace(/{BG_COLOR}/gi, 'bg-warning');
+//    		        	
+//    		        	$('#accordionMain').append(tmp);
     		        	alert('그룹 추가에 성공하였습니다.');
     		        	$('#bookModalCenter').modal('hide');
     		        }
@@ -320,10 +384,9 @@ function addGroup(groupName) {
 
 function clickModal(_this) {
 	$('#bookModalCenter').on('show.bs.modal', function (event) {
-		  var button = $(event.relatedTarget) // Button that triggered the modal
-		  var flag = button.data('whatever') // Extract info from data-* attributes
-		  // If necessary, you could initiate an AJAX request here (and then do the updating in a callback).
-		  // Update the modal's content. We'll use jQuery here, but you could use a data binding library or other methods instead.
+		  var button = $(event.relatedTarget);
+		  var flag = button.data('whatever');
+
 		  var modal = $(this);
 		  if(flag == 'groupAdd') {
 			  modal.find('.modal-title').text('그룹 추가');
@@ -344,11 +407,9 @@ function clickModal(_this) {
 
 function clickFriendModal(_this) {
 	$('#friendModalCenter').on('show.bs.modal', function (event) {
-		  var button = $(event.relatedTarget) // Button that triggered the modal
-		  var flag = button.data('whatever') // Extract info from data-* attributes
-		  
-		  // If necessary, you could initiate an AJAX request here (and then do the updating in a callback).
-		  // Update the modal's content. We'll use jQuery here, but you could use a data binding library or other methods instead.
+		  var button = $(event.relatedTarget);
+		  var flag = button.data('whatever');
+
 		  var modal = $(this);
 		  if(flag == 'friendAdd') {
 			  modal.find('.modal-title').text('친구 추가');
@@ -368,14 +429,68 @@ function clickFriendModal(_this) {
 					  getFriendByGroup(_this, 'addfriendTable', {name: names});
 					  
 				    }, 1000 );
-				  
-				  
-				  
 			  });
-			  modal.find('button.btn.btn-primary').on('click', function() {
-				  
+			  modal.find('button.btn.btn-primary').on('click', function(_this) {
+				  addFriend(_this);
+				  $('#friendModalCenter').modal('hide');
 			  });
 		  } 
 	})
 }
 
+function deleteFriends(_this) {
+	console.log(_this);
+	
+	var addItems = [];
+	
+	var trList = $('#dataTableAll tbody').children();
+	
+	for(var i=0; i < trList.length; i++) {
+		var item = trList[i];
+		flag = $(item).children('td.select-checkbox').children('input').is(':checked')
+		
+		
+		if(flag) {
+			tdList = $(item).children();
+			for(var j=0; j < tdList.length; j++) {
+				var tdItem = tdList[j];
+				
+				if($(tdItem).attr('class') != 'select-checkbox') {
+					if(j == 4) {
+						addItems.push($(tdItem).text());
+					}
+				}
+				
+			}
+		}
+	}
+	
+	if(addItems.length > 0) {
+		$.ajax({
+			url: 'http://127.0.0.1:8080/friend',
+		    type: 'DELETE',
+		    data: JSON.stringify(addItems),
+		    dataType: 'json',
+		    contentType: 'application/json; charset=utf-8',
+		    beforeSend : function(xhr){
+	            xhr.setRequestHeader('X-AUTH-TOKEN', $.cookie('token'));
+	        },
+	        success : function(msg) {
+	        	getFriendByGroup($('#headingAll h5 button'), 'dataTableAll');
+	        }
+	    });
+	}
+	
+//	if(addItems.length > 0) {
+//		$.ajax({
+//			url: 'http://127.0.0.1:8080/auth',
+//		    type: 'POST',
+//		    data: addItems,
+//		    dataType: 'json',
+//		    contentType: 'application/json; charset=utf-8',
+//	        success : function(msg) {
+//	        	getFriendByGroup(_this, 'dataTableAll');
+//	        }
+//	    });
+//	}
+}
